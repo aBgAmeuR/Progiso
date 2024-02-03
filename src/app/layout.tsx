@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <body className={cn(inter.className + " min-h-screen bg-tremor-background dark:bg-dark-tremor-background")}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}

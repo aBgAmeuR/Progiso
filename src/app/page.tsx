@@ -1,10 +1,17 @@
+import { SignInBtnWithGithub } from "@/components/global/signin-btn-with-github";
+import { SignOutBtn } from "@/components/global/signout-btn";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Card, Text, Metric } from "@tremor/react";
+import { getCurrentSession, getCurrentUser } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+
   return (
     <>
       <ThemeToggle />
+      <h1>Welcome {user?.user_metadata.user_name}</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {user ? <SignOutBtn>Sign Out</SignOutBtn> : <SignInBtnWithGithub>Sign In with Github</SignInBtnWithGithub>}
     </>
   );
 }
