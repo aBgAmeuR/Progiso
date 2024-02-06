@@ -7,11 +7,10 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   return (
-    <>
+    <main>
       <ThemeToggle />
       <h1>Welcome {user?.user_metadata.user_name}</h1>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
       {user ? <SignOutBtn>Sign Out</SignOutBtn> : <SignInBtnWithGithub>Sign In with Github</SignInBtnWithGithub>}
-    </>
+    </main>
   );
 }

@@ -9,12 +9,14 @@ type Props = ComponentProps<typeof Button>
 
 export function SignInBtnWithGithub(props: Props) {
   const supabase = createClientComponentClient()
-  const router = useRouter()
 
   async function signInWithGithub() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
+        queryParams: {
+          
+        },
         redirectTo: `${location.origin}/auth/callback`,
       }
     })
