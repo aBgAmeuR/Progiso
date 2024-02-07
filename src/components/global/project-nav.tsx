@@ -5,8 +5,15 @@
 import { useSelectedProjectStore } from "@/store/selected-project-state"
 import { ChatAlt2Icon, ClipboardListIcon, CodeIcon, TemplateIcon, UserGroupIcon } from "@heroicons/react/solid"
 import Link from "next/link"
+import React from "react"
 
-const items = [
+type Item = {
+  name: string
+  href: string
+  icon: React.FC<React.SVGProps<SVGSVGElement>>
+}
+
+const items: ReadonlyArray<Item> = [
   {
     name: 'Dashboard',
     href: '/dashboard',
