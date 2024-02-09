@@ -50,22 +50,24 @@ export type Database = {
       }
       profiles: {
         Row: {
-          user: any
           avatar_url: string
           full_name: string
           id: string
+          selected_project: string | null
           user_name: string
         }
         Insert: {
           avatar_url: string
           full_name: string
           id: string
+          selected_project?: string | null
           user_name: string
         }
         Update: {
           avatar_url?: string
           full_name?: string
           id?: string
+          selected_project?: string | null
           user_name?: string
         }
         Relationships: [
@@ -74,6 +76,13 @@ export type Database = {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_selected_project_fkey"
+            columns: ["selected_project"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           }
         ]

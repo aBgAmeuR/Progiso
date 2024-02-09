@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/hooks/theme-provider";
 import { cn } from "@/lib/utils";
+import { QueryClientProvider } from "@/hooks/query-client-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,11 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={cn(inter.className + " min-h-screen bg-tremor-background dark:bg-dark-tremor-background")}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <QueryClientProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

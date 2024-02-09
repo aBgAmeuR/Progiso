@@ -1,26 +1,29 @@
 'use client'
 
+import { setSelectProject } from "@/lib/project";
 import { cn } from "@/lib/utils";
-import { useSelectedProjectStore } from "@/store/selected-project-state";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import { Button, Card, Text, Title } from "@tremor/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  project: any;
+  id: string;
+  name: string;
+  image_url: string | null;
+  members: Array<any>;
 };
 
-export default function ProjectComponent({ project }: Props) {
-  const { setSelectedProjectId } = useSelectedProjectStore();
+export default function ProjectComponent(project: Props) {
+  const router = useRouter();
 
-  const handleViewProject = () => {
-    setSelectedProjectId(project.id);
-    redirect('/dashboard');
+  const handleViewProject = async () => {
+    await setSelectProject(project.id);
+    router.push("/dashboard");
   };
 
   return (
-    <Card key={project.id} className="group p-4">
+    <Card className="group p-4">
       <div className={cn("rounded-tremor-default border-tremor-content-subtle dark:border-dark-tremor-content-subtle mb-2 h-20 border border-dashed", project.image_url ? "relative" : "bg-tremor-background-muted dark:bg-dark-tremor-background-muted")}>
         {project.image_url && (
           <Image
@@ -37,10 +40,10 @@ export default function ProjectComponent({ project }: Props) {
 
       <div className="flex justify-between">
         <div className="flex -space-x-2">
-          {project.members.slice(0, 3).map((member: any) => (
+          {project.members.slice(0, 3).map((member) => (
             <Image
               key={member.user.id}
-              className="dark:ring-dark-tremor-background rounded-full ring-2 ring-white"
+              className="dark:ring-dark-tremor-background size-[22px] rounded-full ring-2 ring-white"
               src={member.user.avatar_url}
               alt={member.user.user_name}
               width={22}
