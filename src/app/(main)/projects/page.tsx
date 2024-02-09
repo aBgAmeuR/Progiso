@@ -2,10 +2,11 @@ import { SignInBtnWithGithub } from "@/components/global/signin-btn-with-github"
 import { SignOutBtn } from "@/components/global/signout-btn";
 import { CreateProjectButton } from "@/components/medias/create-project-button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentSession, getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import ProjectsList from "./_components/projects-list";
 import { Suspense } from "react";
+import { createSupabaseServerClient } from "@/lib/supabase";
 
 export default async function Page() {
   const user = await getCurrentUser();

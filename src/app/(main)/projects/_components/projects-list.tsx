@@ -1,9 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase";
-import { useSelectedProjectStore } from "@/store/selected-project-state";
 import { User } from "@supabase/supabase-js";
-import { Card, Title, Subtitle } from "@tremor/react";
-import Image from "next/image";
-import Link from "next/link";
 import ProjectComponent from "./project-component";
 
 type Props = {

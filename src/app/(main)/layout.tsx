@@ -8,7 +8,8 @@ export default async function Layout({ children, }: Readonly<{ children: React.R
   if (!user) redirect("/auth/signin");
 
   return (
-    <div className="grid-cols-main-layout grid h-screen overflow-hidden">
+    // <div className="grid-cols-main-layout grid h-screen overflow-hidden">
+    <div className="grid-cols-main-layout grid h-screen ">
       <NavigationBar />
       {children}
     </div>
