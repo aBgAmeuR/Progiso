@@ -1,24 +1,34 @@
+import { get } from "http"
 import { NextRequest, NextResponse } from "next/server"
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 
-export async function middleware(req: NextRequest) {
+import { getCurrentUser } from "@/lib/auth"
+
+export async function authMiddleware(req: NextRequest) {
   const res = NextResponse.next()
 
-  const supabase = createMiddlewareClient({ req, res })
-  await supabase.auth.getSession()
+  const user = await getCurrentUser()
+  if (!user) {
+    return NextResponse.redirect("/auth/signin")
+  }
 
   return res
 }
 
-export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+const middlewareConfig = {
+  middleware: [
+    {
+      matcher: [
+        "/dashboard",
+        "/projects",
+        "/tasks",
+        "/messages",
+        "/code",
+        "/team",
+        "/account",
+      ],
+      handler: authMiddleware,
+    },
   ],
 }
+
+export default middlewareConfig
