@@ -1,5 +1,3 @@
-import { getCurrentUser } from "@/lib/auth"
-import { createSupabaseServerClient } from "@/lib/supabase"
 import { Title } from "@tremor/react"
 import { PropsWithChildren } from "react"
 
