@@ -6,20 +6,27 @@ import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import ProjectsList from "./_components/projects-list";
+import { ProjectHeader } from "@/components/global/project-header";
+import { getSelectedProject } from "@/lib/project";
+import { Divider } from "@tremor/react";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 
 export default async function Page() {
   const user = await getCurrentUser();
-
   if (!user) redirect("/");
 
   return (
-    <main>
-      <ThemeToggle />
-      <h1>Welcome {user?.user_metadata.user_name}</h1>
-      {user ? <SignOutBtn>Sign Out</SignOutBtn> : <SignInBtnWithGithub>Sign In with Github</SignInBtnWithGithub>}
-      <CreateProjectButton>
-        Create Project
-      </CreateProjectButton>
+    <main className="px-8 py-6">
+      <ProjectHeader projectName='Mes projets'>
+        <SignOutBtn variant="secondary">Sign Out</SignOutBtn>
+        <CreateProjectButton>
+          <div className="flex gap-2">
+            Créer un projet
+            <PlusCircleIcon className='size-5' />
+          </div>
+        </CreateProjectButton>
+      </ProjectHeader>
+      <Divider />
       <Suspense fallback={<div>Loading...</div>}>
         <ProjectsList user={user} />
       </Suspense>

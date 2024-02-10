@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react"
 
 type Props = PropsWithChildren<{
   projectName: string
-  title: string
+  title?: string
 }>
 
 export const ProjectHeader = async ({ projectName, title, children }: Props) => {
