@@ -1,5 +1,6 @@
 'use client'
 
+import { Avatar, AvatarGroup } from "@/components/ui/avatar";
 import { setSelectProject } from "@/lib/project";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@heroicons/react/solid";
@@ -39,23 +40,7 @@ export default function ProjectComponent(project: Props) {
       <Title className="my-2">{project.name}</Title>
 
       <div className="flex justify-between">
-        <div className="flex -space-x-2">
-          {project.members.slice(0, 3).map((member) => (
-            <Image
-              key={member.user.id}
-              className="dark:ring-dark-tremor-background size-[22px] rounded-full ring-2 ring-white"
-              src={member.user.avatar_url}
-              alt={member.user.user_name}
-              width={22}
-              height={22}
-            />
-          ))}
-          {project.members.length > 3 && (
-            <div className="dark:ring-dark-tremor-background dark:bg-dark-tremor-background-subtle bg-tremor-background-subtle flex size-6 items-center justify-center rounded-full ring-2 ring-white">
-              <Text>+{project.members.length - 3}</Text>
-            </div>
-          )}
-        </div>
+        <AvatarGroup avatars={project.members.map((member) => ({ url: member.user.avatar_url, alt: member.user.user_name }))} />
         <div>
           <Button onClick={handleViewProject} icon={ArrowRightIcon} iconPosition="right" variant="light">Y aller</Button>
         </div>

@@ -1,3 +1,4 @@
+import { Avatar } from '@/components/ui/avatar';
 import { createSupabaseServerClient } from '@/lib/supabase';
 import { Badge, TableBody, TableCell, TableRow } from '@tremor/react';
 import Image from 'next/image';
@@ -38,13 +39,7 @@ export const MembersDataTable = async ({ selectedProjectId }: Props) => {
         <TableRow key={member.user.id}>
           <TableCell>
             <div className='flex items-center gap-4'>
-              <Image
-                src={member.user.avatar_url}
-                alt={member.user.user_name}
-                width={40}
-                height={40}
-                className='rounded-full'
-              />
+              <Avatar url={member.user.avatar_url} alt={member.user.user_name} />
               <p>{member.user.user_name}</p>
             </div>
           </TableCell>
