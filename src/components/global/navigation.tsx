@@ -2,6 +2,7 @@ import { getSelectedProject } from "@/lib/project";
 import { ChatAlt2Icon, ClipboardListIcon, CodeIcon, TemplateIcon, UserGroupIcon, UserIcon, ViewGridIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type Item = {
   name: string
