@@ -12,6 +12,7 @@ type Project = {
   id: string
   image_url: string | null
   name: string
+  github_repo_url: string | null
 }
 
 export const getSelectedProject = async (): Promise<Project | null> => {

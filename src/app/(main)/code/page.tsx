@@ -1,9 +1,9 @@
 import { ProjectHeader } from "@/components/global/project-header";
 import { getSelectedProject } from "@/lib/project";
-import { PlusCircleIcon } from "@heroicons/react/solid";
-import { RiGithubFill} from '@remixicon/react';
-import { Button, Divider } from '@tremor/react';
+import { RiGithubFill } from '@remixicon/react';
+import { Button } from '@tremor/react';
 import { redirect } from "next/navigation";
+import { LinkGithubProject } from "./_components/link-github-project";
 
 export default async function Page() {
   const selectedProject = await getSelectedProject();
@@ -19,6 +19,9 @@ export default async function Page() {
           </div>
         </Button>
       </ProjectHeader>
-    </main>
+      {selectedProject?.github_repo_url ? (<div></div>) : (
+        <LinkGithubProject />
+      )}
+    </main >
   )
 }
