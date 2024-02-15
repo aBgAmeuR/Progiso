@@ -1,7 +1,7 @@
 import { ProjectHeader } from "@/components/global/project-header";
 import { getSelectedProject } from "@/lib/project";
-import { CogIcon, PlusCircleIcon } from "@heroicons/react/solid";
-import { Button, Divider } from '@tremor/react';
+import { PlusCircleIcon } from "@heroicons/react/solid";
+import { Button } from '@tremor/react';
 import { redirect } from "next/navigation";
 
 export default async function Page() {

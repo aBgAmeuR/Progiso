@@ -92,6 +92,7 @@ export type Database = {
           created_at: string
           created_by: string
           description: string | null
+          github_repo_url: string | null
           id: string
           image_url: string | null
           name: string
@@ -100,6 +101,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          github_repo_url?: string | null
           id?: string
           image_url?: string | null
           name?: string
@@ -108,6 +110,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          github_repo_url?: string | null
           id?: string
           image_url?: string | null
           name?: string
