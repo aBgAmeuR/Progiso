@@ -14,7 +14,8 @@ export function SignInBtnWithGithub(props: Props) {
       provider: 'github',
       options: {
         redirectTo: `${location.origin}/auth/callback`,
-      }
+        scopes: 'read:public_key',
+      },
     })
 
     if (error) console.error(error)

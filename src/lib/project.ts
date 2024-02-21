@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 import { getCurrentUser } from "./auth"
 import { createSupabaseServerClient } from "./supabase"
 
-type Project = {
+export type Project = {
   created_at: string
   created_by: string
   description: string | null
