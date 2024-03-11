@@ -26,7 +26,7 @@ export const AddMemberButton = (props: Props) => {
         {props.children}
       </Button>
       <Dialog open={isOpen} onClose={(val) => setIsOpen(val)} static={true}>
-        <DialogPanel>
+        <DialogPanel className="overflow-visible">
           <Metric>Ajouter un membre</Metric>
           <form className="mt-4 flex gap-2">
             <SearchGitHubProfiles access_token={props.access_token} />

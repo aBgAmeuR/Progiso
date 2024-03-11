@@ -25,18 +25,18 @@ export async function supabaseMiddleware(req: NextRequest) {
 
 const middlewareConfig = {
   middleware: [
-    // {
-    //   matcher: [
-    //     "/dashboard",
-    //     "/projects",
-    //     "/tasks",
-    //     "/messages",
-    //     "/code",
-    //     "/team",
-    //     "/account",
-    //   ],
-    //   handler: authMiddleware,
-    // },
+    {
+      matcher: [
+        "/dashboard",
+        "/projects",
+        "/tasks",
+        "/messages",
+        "/code",
+        "/team",
+        "/account",
+      ],
+      handler: authMiddleware,
+    },
     {
       matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
       handler: supabaseMiddleware,

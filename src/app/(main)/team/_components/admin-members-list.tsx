@@ -1,4 +1,4 @@
-import { Select, TableBody, TableCell, TableRow } from '@tremor/react';
+import { Select, SelectItem, TableBody, TableCell, TableRow } from '@tremor/react';
 import { Member } from './admin-button';
 
 const roles = ["guest", "contributor", "admin"] as const;
@@ -18,7 +18,7 @@ export const AdminMembersList = ({ members }: Props) => {
           <TableCell>
             <Select defaultValue={member.role}>
               {roles.map((role: string) => (
-                <option key={role} value={role}>{role}</option>
+                <SelectItem key={role} value={role}>{role}</SelectItem>
               ))}
             </Select>
           </TableCell>
