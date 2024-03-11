@@ -23,7 +23,6 @@ type Props = {
 }
 
 export const MembersDataTable = async ({ selectedProjectId }: Props) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from('members')
