@@ -1,7 +1,7 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
 import { PropsWithChildren } from 'react';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -9,7 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 
 import { Icons } from '@/components/icons';
 
-const hidePaths = ['/', '/projects'];
+const hidePaths = ['/', '/projects', '/projects/create'];
 
 export const ProjectSelector = ({ children }: PropsWithChildren) => {
   const path = usePathname();
@@ -25,7 +25,7 @@ export const ProjectSelector = ({ children }: PropsWithChildren) => {
     <>
       <Icons.slash className="mx-1 size-4" />
       <div className="flex items-center gap-2">
-        <img
+        <Image
           src={project.image_url}
           alt={project.name}
           width={24}

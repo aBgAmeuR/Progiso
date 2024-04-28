@@ -34,8 +34,10 @@ export const ProjectCard = ({
           <AvatarImage src={project.image_url!} />
           <AvatarFallback>{project.name[0]}</AvatarFallback>
         </Avatar>
-        <div className="flex flex-col">
-          <CardTitle>{project.name}</CardTitle>
+        <div className="flex w-10/12 flex-col">
+          <CardTitle className="line-clamp-1 h-10 break-all leading-8">
+            {project.name}
+          </CardTitle>
           <CardDescription>
             {project.website_url?.split('https://')[1].split('/')[0]}
           </CardDescription>
@@ -51,7 +53,9 @@ export const ProjectCard = ({
               className="bg-secondary text-foreground hover:text-primary flex w-min flex-row items-center gap-2 rounded-xl px-3 py-1"
             >
               <Icons.github className="size-4" />
-              <p>{project.github_url.split('https://github.com/')[1]}</p>
+              <p className="whitespace-nowrap">
+                {project.github_url.split('https://github.com/')[1]}
+              </p>
             </a>
           ) : (
             <div className="bg-secondary flex w-min flex-row items-center gap-2 rounded-xl px-3 py-1">

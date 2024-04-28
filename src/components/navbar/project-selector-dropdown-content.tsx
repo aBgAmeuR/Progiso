@@ -1,8 +1,11 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
-import { CirclePlus, Search } from 'lucide-react';
+import { CirclePlus, LayoutGrid, Search } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { Input } from '../ui/input';
 
@@ -12,7 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { TProject } from '@/features/projects/types';
 
 type TProjectSelectorDropdownContentProps = {
@@ -23,13 +26,24 @@ export const ProjectSelectorDropdownContent = ({
   projects,
 }: TProjectSelectorDropdownContentProps) => {
   const [search, setSearch] = useState<string>('');
+  const { update } = useSession();
+  const router = useRouter();
 
   const filteredProjects = projects.filter((project) => {
     return project.name.toLowerCase().includes(search.toLowerCase());
   });
 
+  const handleSelectProject = async (project: TProject) => {
+    await update({
+      user: {
+        selectProject: project,
+      },
+    });
+    router.refresh();
+  };
+
   return (
-    <DropdownMenuContent>
+    <DropdownMenuContent className="w-64">
       <div className="relative w-full">
         <Input
           className="pl-8"
@@ -46,24 +60,37 @@ export const ProjectSelectorDropdownContent = ({
       <DropdownMenuLabel className="text-muted-foreground text-xs">
         Projects
       </DropdownMenuLabel>
-      <ScrollArea className="max-h-48">
+      <ScrollArea className="max-h-32 w-full overflow-y-scroll">
         {filteredProjects.map((project) => (
-          <DropdownMenuItem key={project.id} className="flex gap-2">
-            <img
+          <DropdownMenuItem
+            key={project.id}
+            className="flex w-[246px] cursor-pointer gap-2"
+            onClick={() => handleSelectProject(project)}
+          >
+            <Image
               src={project.image_url}
               alt={project.name}
               width={16}
               height={16}
               className="rounded-full"
             />
-            {project.name}
+            <p className="truncate">{project.name}</p>
           </DropdownMenuItem>
         ))}
+        <ScrollBar orientation="vertical" />
       </ScrollArea>
       <DropdownMenuSeparator />
-      <DropdownMenuItem className="flex gap-2">
-        <CirclePlus size={16} strokeWidth={1} className="text-blue-500" />
-        <p>Create Project</p>
+      <DropdownMenuItem className="flex cursor-pointer gap-2" asChild>
+        <Link href="/projects">
+          <LayoutGrid size={16} strokeWidth={1} className="text-green-500" />
+          <p>View All Projects</p>
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem className="flex cursor-pointer gap-2" asChild>
+        <Link href="/projects/create">
+          <CirclePlus size={16} strokeWidth={1} className="text-blue-500" />
+          <p>Create Project</p>
+        </Link>
       </DropdownMenuItem>
     </DropdownMenuContent>
   );
