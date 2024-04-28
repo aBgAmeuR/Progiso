@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
           null) as {
           id: string;
           name: string;
-          image_url: string | null;
+          image_url: string;
         } | null;
       }
       return params.session;

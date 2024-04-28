@@ -11,7 +11,7 @@ export type TProject = {
   name: string;
   description: string | null;
   website_url: string | null;
-  image_url: string | null;
+  image_url: string;
   github_url: string | null;
   created_at: Date;
   updated_at: Date;

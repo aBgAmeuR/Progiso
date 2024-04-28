@@ -44,11 +44,21 @@ export const ProjectCard = ({
       {variant === 'grid' ? (
         <CardContent className="h-12 p-4 pt-0">
           {project.github_url ? (
-            <div className="bg-secondary flex w-min flex-row items-center gap-2 rounded-xl px-3 py-1">
+            <a
+              href={project.github_url}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-secondary text-foreground hover:text-primary flex w-min flex-row items-center gap-2 rounded-xl px-3 py-1"
+            >
               <Icons.github className="size-4" />
               <p>{project.github_url.split('https://github.com/')[1]}</p>
+            </a>
+          ) : (
+            <div className="bg-secondary flex w-min flex-row items-center gap-2 rounded-xl px-3 py-1">
+              <Icons.github className="size-4" />
+              <p className="whitespace-nowrap">No GitHub URL</p>
             </div>
-          ) : null}
+          )}
         </CardContent>
       ) : null}
       <CardFooter className={cn('p-4 pt-0', variant === 'list' && 'p-0')}>

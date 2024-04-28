@@ -2,7 +2,7 @@
 
 import { revalidateTag } from 'next/cache';
 
-import { createProject } from './services';
+import { createProject, getProjects } from './services';
 import { TCreateProject } from './types';
 
 export const createProjectAction = async (project: TCreateProject) => {
@@ -12,4 +12,12 @@ export const createProjectAction = async (project: TCreateProject) => {
 
   revalidateTag('projects');
   return { message: 'Project created successfully' };
+};
+
+export const getProjectsAction = async () => {
+  const res = await getProjects();
+
+  if (!res) return null;
+
+  return res;
 };

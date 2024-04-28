@@ -12,7 +12,9 @@ export const createProject = async (newProject: TCreateProject) => {
       name: newProject.name,
       description: newProject.description,
       website_url: newProject.website_url,
-      image_url: newProject.image_url,
+      image_url:
+        newProject.image_url ||
+        `https://api.dicebear.com/8.x/shapes/svg?seed=${newProject.name}`,
       github_url: newProject.github_url,
       members: {
         create: [
@@ -47,4 +49,11 @@ export const getProjects = async () => {
   });
 
   return projects;
+};
+
+export const getSelectedProject = async () => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  return session.user.selectProject;
 };

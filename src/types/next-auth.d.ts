@@ -13,7 +13,7 @@ declare module 'next-auth' {
     selectProject: {
       id: string;
       name: string;
-      image_url: string | null;
+      image_url: string;
     } | null;
   }
   /**
