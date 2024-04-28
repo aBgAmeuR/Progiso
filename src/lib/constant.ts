@@ -1,15 +1,12 @@
 import { env } from '@/env.mjs';
 
 export const siteConfig = {
-  title: 'Next.js Starter',
+  title: 'Progiso',
   description:
-    'A Next.js starter template, packed with features like TypeScript, Tailwind CSS, Next-auth, Eslint, testing tools and more. Jumpstart your project with efficiency and style.',
+    'Project management platform designed to streamline project management for small to medium-sized teams.',
   keywords: [
     'Next.js',
     'React',
-    'Next.js starter',
-    'Next.js boilerplate',
-    'Starter Template',
     'Tailwind CSS',
     'TypeScript',
     'Shadcn/ui',

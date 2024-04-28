@@ -3,9 +3,10 @@ import '@/styles/globals.css';
 import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 
-import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar/navbar';
+import { SessionProvider } from '@/components/session-provider';
 import { ThemeProvider } from '@/components/theme-provider';
+import { TooltipsProvider } from '@/components/tooltips-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { siteConfig } from '@/lib/constant';
 import { fonts } from '@/lib/fonts';
@@ -48,13 +49,21 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn('min-h-screen font-sans', fonts)}>
-        <ThemeProvider attribute="class">
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+      <body
+        className={cn(
+          'bg-background flex min-h-screen flex-col font-sans',
+          fonts
+        )}
+      >
+        <SessionProvider>
+          <ThemeProvider attribute="class">
+            <TooltipsProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+            </TooltipsProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
