@@ -62,7 +62,7 @@ model Project {
   name        String
   description String?
   website_url String?
-  image_url   String?
+  image_url   String
   github_url  String?
   created_at  DateTime        @default(now())
   updated_at  DateTime        @updatedAt
@@ -74,8 +74,8 @@ model ProjectMember {
   userId    String
   projectId String
   role      String
-  user      User    @relation(fields: [userId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId])
 }

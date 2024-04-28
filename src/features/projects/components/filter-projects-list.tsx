@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useQueryState } from 'nuqs';
 
@@ -22,7 +23,8 @@ const filterProjects = (projects: Array<TProject>, filter: string) => {
 export const FilterProjectsList = ({ projects }: TFilterProjectsListProps) => {
   const [filter] = useQueryState('q');
   const [view] = useQueryState('view');
-  const { data, update } = useSession();
+  const { update } = useSession();
+  const router = useRouter();
 
   const filteredProjects = filter ? filterProjects(projects, filter) : projects;
 
@@ -36,7 +38,7 @@ export const FilterProjectsList = ({ projects }: TFilterProjectsListProps) => {
         },
       },
     });
-    console.log(data?.user);
+    router.push('/board');
   };
 
   return (
@@ -60,7 +62,6 @@ export const FilterProjectsList = ({ projects }: TFilterProjectsListProps) => {
             />
           </button>
         ))}
-      <pre>{JSON.stringify(data?.user, null, 2)}</pre>
     </div>
   );
 };
