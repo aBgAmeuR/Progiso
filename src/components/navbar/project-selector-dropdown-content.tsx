@@ -87,7 +87,7 @@ export const ProjectSelectorDropdownContent = ({
         </Link>
       </DropdownMenuItem>
       <DropdownMenuItem className="flex cursor-pointer gap-2" asChild>
-        <Link href="/projects/create">
+        <Link href="/projects/new">
           <CirclePlus size={16} strokeWidth={1} className="text-blue-500" />
           <p>Create Project</p>
         </Link>
