@@ -37,7 +37,7 @@ export const SearchProjectInput = () => {
           <SelectItem value="grid">Grid</SelectItem>
         </SelectContent>
       </Select>
-      <Button onClick={() => router.push('/projects/create')}>
+      <Button onClick={() => router.push('/projects/new')}>
         Create Project
       </Button>
     </div>
