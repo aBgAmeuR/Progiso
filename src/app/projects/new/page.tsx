@@ -1,11 +1,22 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreateProjectForm } from '@/features/projects/components';
 
-export default async function CreateProjectPage() {
+export default function CreateProjectPage() {
   return (
-    <main className="w-full py-4">
-      <div className="container">
-        <CreateProjectForm />
+    <div className="my-12">
+      <div className="container flex justify-center">
+        <Card className="w-full max-w-xl">
+          <CardHeader>
+            <CardTitle>New Project</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CreateProjectForm />
+          </CardContent>
+        </Card>
+        {/**<div>
+         * <CreateProjectCardResult />
+         * </div>*/}
       </div>
-    </main>
+    </div>
   );
 }
