@@ -2,8 +2,10 @@ import '@/styles/globals.css';
 
 import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
+import { Toaster as SonnerToaster } from 'sonner';
 
 import { Navbar } from '@/components/navbar/navbar';
+import { QueryProvider } from '@/components/query-provider';
 import { SessionProvider } from '@/components/session-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipsProvider } from '@/components/tooltips-provider';
@@ -56,13 +58,16 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         )}
       >
         <SessionProvider>
-          <ThemeProvider attribute="class">
-            <TooltipsProvider>
-              <Navbar />
-              {children}
-              <Toaster />
-            </TooltipsProvider>
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider attribute="class">
+              <TooltipsProvider>
+                <Navbar />
+                {children}
+                <Toaster />
+                <SonnerToaster richColors={true} />
+              </TooltipsProvider>
+            </ThemeProvider>
+          </QueryProvider>
         </SessionProvider>
       </body>
     </html>

@@ -2,13 +2,14 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 import { createProjectAction } from '@/features/projects';
+import { getErrorMessage } from '@/lib/handle-error';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -28,12 +29,13 @@ export const CreateProjectForm = () => {
       name: '',
     },
   });
-  const { toast } = useToast();
 
   const onSubmit = async (project: FormSchema) => {
-    const res = await createProjectAction(project);
-    if (!res) return;
-    toast({ description: res.message });
+    toast.promise(createProjectAction(project), {
+      loading: 'Creating project...',
+      success: 'Project created successfully',
+      error: (err: unknown) => getErrorMessage(err),
+    });
   };
 
   return (

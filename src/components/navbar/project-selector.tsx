@@ -9,7 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 
 import { Icons } from '@/components/icons';
 
-const hidePaths = ['/', '/projects', '/projects/create'];
+const hidePaths = ['/', '/projects', '/projects/new'];
 
 export const ProjectSelector = ({ children }: PropsWithChildren) => {
   const path = usePathname();
