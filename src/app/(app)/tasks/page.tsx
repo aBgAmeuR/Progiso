@@ -1,25 +1,36 @@
-import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
+
+import { BreadcrumbPage } from '@/components/breadcrumb-page';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { CreateTasks } from '@/features/tasks/components/create-task';
+import { TasksBoard } from '@/features/tasks/components/tasks-board';
+import { TasksBoardSkeleton } from '@/features/tasks/components/tasks-board-skeleton';
 
 export default async function TasksPage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Tasks</h1>
-      </div>
-      <div
-        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-        x-chunk="dashboard-02-chunk-1"
-      >
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            Welcome to Progiso
-          </h3>
-          <p className="text-muted-foreground text-sm">
-            The best platform for your projects
-          </p>
-          <Button className="mt-4">Get Started</Button>
+    <main className="flex w-[calc(100vw-193px)] flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <BreadcrumbPage pageName="Tasks" />
+          <div>
+            <h1 className="text-lg font-semibold md:text-2xl">Tasks</h1>
+            <p className="text-muted-foreground text-sm">
+              Manage your tasks and keep track of your progress
+            </p>
+          </div>
         </div>
+        <CreateTasks />
       </div>
+      <ScrollArea
+        className="flex flex-1 overflow-scroll"
+        id="custom-drag-overlay-container"
+      >
+        <Suspense fallback={<TasksBoardSkeleton />}>
+          <TasksBoard />
+        </Suspense>
+        <ScrollBar orientation="horizontal" />
+        <ScrollBar orientation="vertical" />
+      </ScrollArea>
     </main>
   );
 }

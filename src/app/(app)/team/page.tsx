@@ -1,6 +1,14 @@
-import { Button } from '@/components/ui/button';
+import { SearchParams } from '@/components/data-table/types';
+import MembersTable from '@/features/members/examples/page';
+import { searchParamsSchema } from '@/features/members/types';
 
-export default async function TeamPage() {
+export interface IndexPageProps {
+  searchParams: SearchParams;
+}
+
+export default async function TeamPage({ searchParams }: IndexPageProps) {
+  const search = searchParamsSchema.parse(searchParams);
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
@@ -11,13 +19,7 @@ export default async function TeamPage() {
         x-chunk="dashboard-02-chunk-1"
       >
         <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            Welcome to Progiso
-          </h3>
-          <p className="text-muted-foreground text-sm">
-            The best platform for your projects
-          </p>
-          <Button className="mt-4">Get Started</Button>
+          <MembersTable search={search} />
         </div>
       </div>
     </main>

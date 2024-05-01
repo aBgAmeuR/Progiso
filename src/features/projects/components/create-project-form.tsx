@@ -2,21 +2,29 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Star } from 'lucide-react';
+import { parseAsJson, useQueryState } from 'nuqs';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 import { createProjectAction } from '@/features/projects';
-import { cn } from '@/lib/utils';
+import { getErrorMessage } from '@/lib/handle-error';
 
-const formSchema = z.object({
+export const formSchema = z.object({
   name: z.string().min(3).max(128),
   description: z.string().max(255).optional(),
-  website_url: z.string().url().optional(),
-  image_url: z.string().url().optional(),
-  github_url: z.string().url().optional(),
+  website_url: z.string().url().max(1024).optional(),
+  image_url: z.string().url().max(1024).optional(),
+  github_url: z.string().url().max(1024).optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -28,18 +36,25 @@ export const CreateProjectForm = () => {
       name: '',
     },
   });
-  const { toast } = useToast();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setFormValues] = useQueryState(
+    'zod',
+    parseAsJson(formSchema.parse)
+  );
 
   const onSubmit = async (project: FormSchema) => {
-    const res = await createProjectAction(project);
-    if (!res) return;
-    toast({ description: res.message });
+    toast.promise(createProjectAction(project), {
+      loading: 'Creating project...',
+      success: 'Project created successfully',
+      error: (err: unknown) => getErrorMessage(err),
+    });
   };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        onChange={async () => await setFormValues(form.getValues())}
         className="flex flex-col gap-3"
       >
         <FormField
@@ -47,16 +62,20 @@ export const CreateProjectForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="Project name"
-                  className={cn(
-                    'md:w-96',
-                    form.formState.errors.name && 'border-destructive'
-                  )}
-                  {...field}
+              <FormLabel className="relative">
+                Project name
+                <Star
+                  fill="red"
+                  color="red"
+                  className="absolute -right-2.5 top-0.5 size-2 -rotate-12"
                 />
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="Project name" {...field} />
               </FormControl>
+              {/**<FormDescription>
+                This is your public display name.
+                </FormDescription>*/}
             </FormItem>
           )}
         />
@@ -65,16 +84,13 @@ export const CreateProjectForm = () => {
           name="description"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Project description</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Project description"
-                  className={cn(
-                    'md:w-96',
-                    form.formState.errors.description && 'border-destructive'
-                  )}
-                  {...field}
-                />
+                <Input placeholder="Project description" {...field} />
               </FormControl>
+              {/**<FormDescription>
+                This is your public display name.
+                </FormDescription>*/}
             </FormItem>
           )}
         />
@@ -83,16 +99,13 @@ export const CreateProjectForm = () => {
           name="website_url"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Website Url</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Project website url"
-                  className={cn(
-                    'md:w-96',
-                    form.formState.errors.website_url && 'border-destructive'
-                  )}
-                  {...field}
-                />
+                <Input placeholder="Website Url" {...field} />
               </FormControl>
+              {/**<FormDescription>
+                This is your public display name.
+                </FormDescription>*/}
             </FormItem>
           )}
         />
@@ -101,16 +114,13 @@ export const CreateProjectForm = () => {
           name="image_url"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Image Url</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Project image url"
-                  className={cn(
-                    'md:w-96',
-                    form.formState.errors.image_url && 'border-destructive'
-                  )}
-                  {...field}
-                />
+                <Input placeholder="Image Url" {...field} />
               </FormControl>
+              {/**<FormDescription>
+                This is your public display name.
+                </FormDescription>*/}
             </FormItem>
           )}
         />
@@ -119,22 +129,17 @@ export const CreateProjectForm = () => {
           name="github_url"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Repository Github Url</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Project github url"
-                  className={cn(
-                    'md:w-96',
-                    form.formState.errors.github_url && 'border-destructive'
-                  )}
-                  {...field}
-                />
+                <Input placeholder="Github Url" {...field} />
               </FormControl>
+              {/**<FormDescription>
+                This is your public display name.
+                </FormDescription>*/}
             </FormItem>
           )}
         />
-        <Button variant="secondary" type="submit">
-          Submit
-        </Button>
+        <Button type="submit">Create Project</Button>
       </form>
     </Form>
   );

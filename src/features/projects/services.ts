@@ -28,6 +28,22 @@ export const createProject = async (newProject: TCreateProject) => {
           },
         ],
       },
+      columns: {
+        create: [
+          {
+            title: 'To do',
+            order: 0,
+          },
+          {
+            title: 'In progress',
+            order: 1,
+          },
+          {
+            title: 'Done',
+            order: 2,
+          },
+        ],
+      },
     },
   });
 
