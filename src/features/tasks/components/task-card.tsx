@@ -1,47 +1,35 @@
-import React from 'react';
-import { Draggable } from '@hello-pangea/dnd';
+import { motion } from 'framer-motion';
 
-import { AvatarStack } from '@/components/ui/avatar-stack';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { TTask } from '@/features/tasks/types';
+import { ICard } from '../types';
+import { DropIndicator } from './drop-indicator';
 
-type TTaskCardProps = {
-  index: number;
-  task: TTask;
+type TCardProps = {
+  title: string;
+  id: string;
+  column: string;
+  handleDragStart: (e: React.DragEvent<HTMLDivElement>, card: ICard) => void;
 };
 
-export const TaskCard = ({ index, task }: TTaskCardProps) => {
-  const avatars = task.assignees.map((assignee) => assignee.user);
+export const Card = ({ title, id, column, handleDragStart }: TCardProps) => {
+  const adaptedHandleDragStart = (
+    event: MouseEvent | TouchEvent | PointerEvent
+  ) => {
+    const dragEvent = event as unknown as React.DragEvent<HTMLDivElement>;
+    handleDragStart(dragEvent, { title, id, column });
+  };
 
   return (
-    <Draggable draggableId={task.id} index={index}>
-      {(provided) => (
-        <Card
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          className="w-full"
-        >
-          <CardContent className="p-3">
-            <div>
-              {task.tag ? (
-                <Badge
-                  key={task.tag.id}
-                  color={task.tag.color}
-                  className="mr-2"
-                >
-                  {task.tag.name}
-                </Badge>
-              ) : null}
-            </div>
-            <h3 className="text-lg font-medium">{task.title}</h3>
-            <div>
-              <AvatarStack avatars={avatars} size="sm" spacing="xl" />
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </Draggable>
+    <>
+      <DropIndicator beforeId={id} column={column} />
+      <motion.div
+        layout
+        layoutId={id}
+        draggable="true"
+        onDragStart={adaptedHandleDragStart}
+        className="bg-card border-border cursor-grab rounded border p-3 active:cursor-grabbing"
+      >
+        <p className="text-sm">{title}</p>
+      </motion.div>
+    </>
   );
 };

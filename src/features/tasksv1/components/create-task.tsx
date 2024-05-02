@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
-import { getTagsAction } from '../actions';
+// import { useQuery } from '@tanstack/react-query';
+// import { getTagsAction } from '../actions';
 import { CreateTaskForm } from './create-task-form';
 
 import { Button } from '@/components/ui/button';

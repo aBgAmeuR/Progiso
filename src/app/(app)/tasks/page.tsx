@@ -2,9 +2,10 @@ import { Suspense } from 'react';
 
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { CreateTasks } from '@/features/tasks/components/create-task';
 import { TasksBoard } from '@/features/tasks/components/tasks-board';
-import { TasksBoardSkeleton } from '@/features/tasks/components/tasks-board-skeleton';
+// import { CreateTasks } from '@/features/tasksv1/components/create-task';
+// import { TasksBoard } from '@/features/tasksv1/components/tasks-board';
+import { TasksBoardSkeleton } from '@/features/tasksv1/components/tasks-board-skeleton';
 
 export default async function TasksPage() {
   return (
@@ -19,13 +20,14 @@ export default async function TasksPage() {
             </p>
           </div>
         </div>
-        <CreateTasks />
+        {/* <CreateTasks /> */}
       </div>
       <ScrollArea
         className="flex flex-1 overflow-scroll"
         id="custom-drag-overlay-container"
       >
         <Suspense fallback={<TasksBoardSkeleton />}>
+          {/* <TasksBoard /> */}
           <TasksBoard />
         </Suspense>
         <ScrollBar orientation="horizontal" />
