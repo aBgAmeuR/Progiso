@@ -1,4 +1,4 @@
-import * as React from 'react';
+/* import * as React from 'react';
 import {
   ArrowUpIcon,
   CheckCircledIcon,
@@ -76,7 +76,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                 <p className="mr-2">Clear selection</p>
                 {/**<Kbd abbrTitle="Escape" variant="outline">
                   Esc
-  </Kbd>*/}
+  </Kbd>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -211,10 +211,11 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
               <TooltipContent className=" bg-accent text-foreground border font-semibold dark:bg-zinc-900">
                 <p>Delete tasks</p>
               </TooltipContent>
-            </Tooltip> */}
+            </Tooltip> 
           </div>
         </div>
       </div>
     </div>
   );
 }
+ */

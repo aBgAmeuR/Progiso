@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { z } from 'zod';
 
-import { getProjectMembers } from '../services';
+import { getProjectMembers, getProjectRoles } from '../services';
 import { TasksTable } from './_components/tasks-table';
 import { TasksTableProvider } from './_components/tasks-table-provider';
 
@@ -16,6 +16,7 @@ export interface IndexPageProps {
 
 export default async function MembersTable({ search }: IndexPageProps) {
   const membersPromise = getProjectMembers(search);
+  const projectRolesPromise = getProjectRoles();
 
   return (
     <TasksTableProvider>
@@ -44,7 +45,10 @@ export default async function MembersTable({ search }: IndexPageProps) {
          * Passing promises and consuming them using React.use for triggering the suspense fallback.
          * @see https://react.dev/reference/react/use
          */}
-        <TasksTable membersPromise={membersPromise} />
+        <TasksTable
+          membersPromise={membersPromise}
+          projectRolesPromise={projectRolesPromise}
+        />
       </React.Suspense>
     </TasksTableProvider>
   );
