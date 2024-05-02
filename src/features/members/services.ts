@@ -1,3 +1,4 @@
+import { getSelectedProject } from '../projects';
 import { GetTasksSchema } from './types';
 
 import { getServerSession } from '@/lib/auth';
@@ -67,4 +68,35 @@ export const getProjectMembers = async (input: GetTasksSchema) => {
     data,
     pageCount,
   };
+};
+
+export const getProjectRoles = async () => {
+  const selectedProject = await getSelectedProject();
+  if (!selectedProject) return null;
+
+  const roles = [
+    { role: 'ADMIN' },
+    { role: 'DEVELOPPER' },
+    { role: 'TESTER' },
+    { role: 'VISITOR' },
+  ];
+
+  return roles;
+};
+
+export const changeRoleOfMember = async (memberId: string, role: string) => {
+  const selectedProject = await getSelectedProject();
+  if (!selectedProject) return null;
+
+  const res = await prisma.projectMember.updateMany({
+    where: {
+      projectId: selectedProject.id,
+      userId: memberId,
+    },
+    data: {
+      role: role,
+    },
+  });
+
+  return res;
 };

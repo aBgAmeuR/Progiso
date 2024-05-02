@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import * as React from 'react';
 import { TrashIcon } from '@radix-ui/react-icons';
@@ -79,3 +79,4 @@ export function DeleteTasksDialog({
     </Dialog>
   );
 }
+ */

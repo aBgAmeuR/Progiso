@@ -6,11 +6,9 @@ import { type ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
+import { changeRoleOfMemberAction } from '../../actions';
+import { getProjectRoles } from '../../services';
 import { getRoleBadgeColor } from '../../utils';
-import { updateTask } from '../_lib/actions';
-import { getPriorityIcon, getStatusIcon } from '../_lib/utils';
-import { DeleteTasksDialog } from './delete-tasks-dialog';
-import { UpdateTaskSheet } from './update-task-sheet';
 
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
@@ -29,11 +27,20 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { TMember, TMembers } from '@/features/members/types';
+import { TMember } from '@/features/members/types';
 import { getErrorMessage } from '@/lib/handle-error';
-import { formatDate } from '@/lib/utils';
 
-export function getColumns(): ColumnDef<TMember>[] {
+const formatRole = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLocaleLowerCase();
+};
+
+type TGetColumnsProps = {
+  projectRolees: Awaited<ReturnType<typeof getProjectRoles>>;
+};
+
+export function getColumns({
+  projectRolees,
+}: TGetColumnsProps): ColumnDef<TMember>[] {
   return [
     {
       id: 'select',
@@ -95,8 +102,8 @@ export function getColumns(): ColumnDef<TMember>[] {
         <DataTableColumnHeader column={column} title="Role" />
       ),
       cell: ({ row }) => (
-        <div className="w-12">
-          <Badge color={getRoleBadgeColor(row.getValue('role'))}>
+        <div className="flex w-auto items-center justify-start">
+          <Badge className={getRoleBadgeColor(row.original.role)}>
             {row.getValue('role')}
           </Badge>
         </div>
@@ -116,9 +123,13 @@ export function getColumns(): ColumnDef<TMember>[] {
         const [showDeleteTaskDialog, setShowDeleteTaskDialog] =
           React.useState(false);
 
+        console.log(showUpdateTaskSheet, showDeleteTaskDialog);
+
+        if (row.original.role === 'OWNER') return null;
+
         return (
           <>
-            <UpdateTaskSheet
+            {/*             <UpdateTaskSheet
               open={showUpdateTaskSheet}
               onOpenChange={setShowUpdateTaskSheet}
               task={row.original}
@@ -128,7 +139,7 @@ export function getColumns(): ColumnDef<TMember>[] {
               onOpenChange={setShowDeleteTaskDialog}
               tasks={[row]}
               showTrigger={false}
-            />
+            /> */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -144,17 +155,14 @@ export function getColumns(): ColumnDef<TMember>[] {
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
+                  <DropdownMenuSubTrigger>Role</DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     <DropdownMenuRadioGroup
-                      value={row.original.name}
+                      value={row.original.role}
                       onValueChange={(value) => {
                         startUpdateTransition(() => {
                           toast.promise(
-                            updateTask({
-                              id: row.original.id,
-                              label: value as TMember['name'],
-                            }),
+                            changeRoleOfMemberAction(row.original.id, value),
                             {
                               loading: 'Updating...',
                               success: 'Label updated',
@@ -164,107 +172,14 @@ export function getColumns(): ColumnDef<TMember>[] {
                         });
                       }}
                     >
-                      {/* {tasks.label.enumValues.map((label) => (
+                      {projectRolees?.map(({ role }) => (
                         <DropdownMenuRadioItem
-                          key={label}
-                          value={label}
+                          key={role}
+                          value={role}
                           className="capitalize"
                           disabled={isUpdatePending}
                         >
-                          {label}
-                        </DropdownMenuRadioItem>
-                      ))} */}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onSelect={() => setShowDeleteTaskDialog(true)}
-                >
-                  Delete
-                  <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </>
-        );
-      },
-    },
-  ];
-
-  /*  
-    {
-      accessorKey: 'createdAt',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Created At" />
-      ),
-      cell: ({ cell }) => formatDate(cell.getValue() as Date),
-    },
-    {
-      id: 'actions',
-      cell: function Cell({ row }) {
-        const [isUpdatePending, startUpdateTransition] = React.useTransition();
-        const [showUpdateTaskSheet, setShowUpdateTaskSheet] =
-          React.useState(false);
-        const [showDeleteTaskDialog, setShowDeleteTaskDialog] =
-          React.useState(false);
-
-        return (
-          <>
-            <UpdateTaskSheet
-              open={showUpdateTaskSheet}
-              onOpenChange={setShowUpdateTaskSheet}
-              task={row.original}
-            />
-            <DeleteTasksDialog
-              open={showDeleteTaskDialog}
-              onOpenChange={setShowDeleteTaskDialog}
-              tasks={[row]}
-              showTrigger={false}
-            />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  aria-label="Open menu"
-                  variant="ghost"
-                  className="data-[state=open]:bg-muted flex size-8 p-0"
-                >
-                  <DotsHorizontalIcon className="size-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-40">
-                <DropdownMenuItem onSelect={() => setShowUpdateTaskSheet(true)}>
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuRadioGroup
-                      value={row.original.label}
-                      onValueChange={(value) => {
-                        startUpdateTransition(() => {
-                          toast.promise(
-                            updateTask({
-                              id: row.original.id,
-                              label: value as Task['label'],
-                            }),
-                            {
-                              loading: 'Updating...',
-                              success: 'Label updated',
-                              error: (err) => getErrorMessage(err),
-                            }
-                          );
-                        });
-                      }}
-                    >
-                      {tasks.label.enumValues.map((label) => (
-                        <DropdownMenuRadioItem
-                          key={label}
-                          value={label}
-                          className="capitalize"
-                          disabled={isUpdatePending}
-                        >
-                          {label}
+                          {formatRole(role)}
                         </DropdownMenuRadioItem>
                       ))}
                     </DropdownMenuRadioGroup>
@@ -283,5 +198,5 @@ export function getColumns(): ColumnDef<TMember>[] {
         );
       },
     },
- */
+  ];
 }

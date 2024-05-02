@@ -9,17 +9,11 @@ import {
 import { SelectTrigger } from '@radix-ui/react-select';
 import { type Table } from '@tanstack/react-table';
 
-import { deleteTasks, updateTasks } from '../_lib/client-actions';
-
-import { exportTableToCSV } from '@/components/data-table/lib/export';
+// import { deleteTasks, updateTasks } from '../_lib/client-actions';
+// import { exportTableToCSV } from '@/components/data-table/lib/export';
 // import { Kbd } from '@/components/kbd';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
@@ -36,6 +30,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
   const rows = table.getFilteredSelectedRowModel().rows;
 
   const [isPending, startTransition] = React.useTransition();
+  startTransition(() => console.log(''));
 
   // Clear selection on Escape key press
   React.useEffect(() => {
@@ -74,16 +69,16 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
               </TooltipTrigger>
               <TooltipContent className="bg-accent text-foreground flex items-center border font-semibold dark:bg-zinc-900">
                 <p className="mr-2">Clear selection</p>
-                {/**<Kbd abbrTitle="Escape" variant="outline">
+                {/* <Kbd abbrTitle="Escape" variant="outline">
                   Esc
-  </Kbd>*/}
+                </Kbd> */}
               </TooltipContent>
             </Tooltip>
           </div>
           <Separator orientation="vertical" className="hidden h-5 sm:block" />
           <div className="flex items-center gap-1.5">
-            {/* <Select
-              onValueChange={(value: TMember['role']) => {
+            <Select
+            /* onValueChange={(value: TMember['role']) => {
                 startTransition(() => {
                   updateTasks({
                     rows,
@@ -91,7 +86,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                     onSuccess: () => table.toggleAllRowsSelected(false),
                   });
                 });
-              }}
+              }} */
             >
               <Tooltip>
                 <SelectTrigger asChild>
@@ -112,7 +107,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
               </Tooltip>
               <SelectContent align="center">
                 <SelectGroup>
-                  {tasks.status.enumValues.map((status) => (
+                  {/* tasks.status.enumValues.map((status) => (
                     <SelectItem
                       key={status}
                       value={status}
@@ -120,12 +115,12 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                     >
                       {status}
                     </SelectItem>
-                  ))}
+                  ))} */}
                 </SelectGroup>
               </SelectContent>
             </Select>
             <Select
-              onValueChange={(value: TMember['role']) => {
+            /* onValueChange={(value: TMember['role']) => {
                 startTransition(() => {
                   updateTasks({
                     rows,
@@ -133,7 +128,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                     onSuccess: () => table.toggleAllRowsSelected(false),
                   });
                 });
-              }}
+              }} */
             >
               <Tooltip>
                 <SelectTrigger asChild>
@@ -154,7 +149,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
               </Tooltip>
               <SelectContent align="center">
                 <SelectGroup>
-                  {tasks.priority.enumValues.map((priority) => (
+                  {/* {tasks.priority.enumValues.map((priority) => (
                     <SelectItem
                       key={priority}
                       value={priority}
@@ -162,7 +157,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                     >
                       {priority}
                     </SelectItem>
-                  ))}
+                  ))} */}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -172,14 +167,14 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                   variant="secondary"
                   size="icon"
                   className="size-7 border"
-                  onClick={() => {
+                  /* onClick={() => {
                     startTransition(() => {
                       exportTableToCSV(table, {
                         excludeColumns: ['select', 'actions'],
                         onlySelected: true,
                       });
                     });
-                  }}
+                  }} */
                   disabled={isPending}
                 >
                   <DownloadIcon className="size-4" aria-hidden="true" />
@@ -195,14 +190,14 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
                   variant="secondary"
                   size="icon"
                   className="size-7 border"
-                  onClick={() => {
+                  /* onClick={() => {
                     startTransition(() => {
                       deleteTasks({
                         rows,
                         onSuccess: () => table.toggleAllRowsSelected(false),
                       });
                     });
-                  }}
+                  }} */
                   disabled={isPending}
                 >
                   <TrashIcon className="size-4" aria-hidden="true" />
@@ -211,7 +206,7 @@ export function TasksTableFloatingBar({ table }: TasksTableFloatingBarProps) {
               <TooltipContent className=" bg-accent text-foreground border font-semibold dark:bg-zinc-900">
                 <p>Delete tasks</p>
               </TooltipContent>
-            </Tooltip> */}
+            </Tooltip>
           </div>
         </div>
       </div>
