@@ -5,9 +5,8 @@ import { CaretSortIcon, PlusIcon } from '@radix-ui/react-icons';
 import type { Table } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
 
-import { DataTableFilterItem } from './data-table-filter-item';
-import { DataTableMultiFilter } from './data-table-multi-filter';
-
+// import { DataTableFilterItem } from './data-table-filter-item';
+// import { DataTableMultiFilter } from './data-table-multi-filter';
 import { DataTableFilterCombobox } from '@/components/data-table/advanced/data-table-filter-combobox';
 import { DataTableViewOptions } from '@/components/data-table/data-table-view-options';
 import type {
@@ -66,6 +65,7 @@ export function DataTableAdvancedToolbar<TData>({
     initialSelectedOptions.length > 0 || false
   );
   const [openCombobox, setOpenCombobox] = React.useState(false);
+  console.log(openCombobox);
 
   function onFilterComboboxItemSelect() {
     setOpenFilterBuilder(true);
@@ -116,7 +116,7 @@ export function DataTableAdvancedToolbar<TData>({
           !openFilterBuilder && 'hidden'
         )}
       >
-        {selectedOptions
+        {/* {selectedOptions
           .filter((option) => !option.isMulti)
           .map((selectedOption) => (
             <DataTableFilterItem
@@ -136,7 +136,7 @@ export function DataTableAdvancedToolbar<TData>({
             setSelectedOptions={setSelectedOptions}
             defaultOpen={openCombobox}
           />
-        ) : null}
+        ) : null} */}
         {options.length > 0 && options.length > selectedOptions.length ? (
           <DataTableFilterCombobox
             options={options}
