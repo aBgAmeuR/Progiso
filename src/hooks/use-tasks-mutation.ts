@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 import {
   updateListOrderAction,
   updateTaskOrderAction,
-} from '@/features/tasks/actions';
-import { TColumn, TTask } from '@/features/tasks/types';
+} from '@/features/tasksv1/actions';
+import { TColumn, TTask } from '@/features/tasksv1/types';
 import { getErrorMessage } from '@/lib/handle-error';
 
 type TUpdateListOrderMutationProps = {

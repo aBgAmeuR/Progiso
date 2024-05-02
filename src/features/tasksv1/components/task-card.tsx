@@ -4,7 +4,7 @@ import { Draggable } from '@hello-pangea/dnd';
 import { AvatarStack } from '@/components/ui/avatar-stack';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { TTask } from '@/features/tasks/types';
+import { TTask } from '@/features/tasksv1/types';
 
 type TTaskCardProps = {
   index: number;

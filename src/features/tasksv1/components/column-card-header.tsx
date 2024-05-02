@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { changeTitleOfColumnAction } from '@/features/tasks/actions';
+import { changeTitleOfColumnAction } from '@/features/tasksv1/actions';
 import { getErrorMessage } from '@/lib/handle-error';
 
 type TColumnCardHeaderProps = {

@@ -1,9 +1,9 @@
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { ColumnCardHeader } from '@/features/tasks/components/column-card-header';
-import { TaskCard } from '@/features/tasks/components/task-card';
-import { TColumn } from '@/features/tasks/types';
+import { ColumnCardHeader } from '@/features/tasksv1/components/column-card-header';
+import { TaskCard } from '@/features/tasksv1/components/task-card';
+import { TColumn } from '@/features/tasksv1/types';
 
 type TColumnsCardProps = {
   index: number;

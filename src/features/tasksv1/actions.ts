@@ -6,8 +6,8 @@ import {
   getColumnsWithTasks,
   updateListOrder,
   updateTaskOrder,
-} from '@/features/tasks/services';
-import { TColumn, TCreateTask, TTask } from '@/features/tasks/types';
+} from '@/features/tasksv1/services';
+import { TColumn, TCreateTask, TTask } from '@/features/tasksv1/types';
 
 export const createTaskAction = async (task: TCreateTask) => {
   const res = await createTask(task);

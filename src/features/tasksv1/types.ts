@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-import { getColumnsWithTasksQuery } from '@/features/tasks/services';
+import { getColumnsWithTasksQuery } from '@/features/tasksv1/services';
 
 export type TCreateTask = {
   title: string;

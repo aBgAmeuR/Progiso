@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { getColumnsWithTasksAction } from '@/features/tasks/actions';
-import { TColumn } from '@/features/tasks/types';
+import { getColumnsWithTasksAction } from '@/features/tasksv1/actions';
+import { TColumn } from '@/features/tasksv1/types';
 
 type TUseTasksProps = {
   initialColumns: TColumn[];

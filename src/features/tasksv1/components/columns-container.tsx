@@ -2,8 +2,8 @@
 
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 
-import { ColumnsCard } from '@/features/tasks/components/column-card';
-import { TColumn } from '@/features/tasks/types';
+import { ColumnsCard } from '@/features/tasksv1/components/column-card';
+import { TColumn } from '@/features/tasksv1/types';
 import { useTasks } from '@/hooks/use-tasks';
 import { useTasksBoard } from '@/hooks/use-tasks-board';
 

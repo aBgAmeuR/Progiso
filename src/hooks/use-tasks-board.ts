@@ -3,7 +3,7 @@ import { DropResult } from '@hello-pangea/dnd';
 
 import { useTasksMutation } from './use-tasks-mutation';
 
-import { TColumn, TTask } from '@/features/tasks/types';
+import { TColumn, TTask } from '@/features/tasksv1/types';
 
 const reorder = <T extends TColumn | TTask>(
   list: T[],

@@ -1,4 +1,4 @@
-import { TColumn, TCreateTask, TTask } from '@/features/tasks/types';
+import { TColumn, TCreateTask, TTask } from '@/features/tasksv1/types';
 import { getServerSession } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
