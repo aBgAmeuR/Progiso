@@ -5,12 +5,15 @@ import * as React from 'react';
 import { getProjectMembers, getProjectRoles } from '../../services';
 // import { getPriorityIcon, getStatusIcon } from '../_lib/utils';
 import { getColumns } from './tasks-table-columns';
+import { TasksTableFloatingBar } from './tasks-table-floating-bar';
 import { useTasksTable } from './tasks-table-provider';
+import { TasksTableToolbarActions } from './tasks-table-toolbar-actions';
 
+// import { DataTableAdvancedToolbar } from '@/components/data-table/advanced/data-table-advanced-toolbar';
 // import { TasksTableToolbarActions } from './tasks-table-toolbar-actions';
 // import { DataTableAdvancedToolbar } from '@/components/data-table/advanced/data-table-advanced-toolbar';
 import { DataTable } from '@/components/data-table/data-table';
-// import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
+import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
 import type { DataTableFilterField } from '@/components/data-table/types';
 import { TMember } from '@/features/members/types';
 import { useDataTable } from '@/hooks/use-data-table';
@@ -91,22 +94,21 @@ export function TasksTable({
 
   return (
     <div className="w-full space-y-2.5 overflow-auto">
-      {/**featureFlags.includes('advancedFilter') ? (
+      {/*       {featureFlags.includes('advancedFilter') ? (
         <DataTableAdvancedToolbar table={table} filterFields={filterFields}>
           <TasksTableToolbarActions table={table} />
         </DataTableAdvancedToolbar>
-      ) : (
-        <DataTableToolbar table={table} filterFields={filterFields}>
-          <TasksTableToolbarActions table={table} />
-        </DataTableToolbar>
-      )*/}
+      ) : ( */}
+      <DataTableToolbar table={table} filterFields={filterFields}>
+        <TasksTableToolbarActions table={table} />
+      </DataTableToolbar>
+      {/* )} */}
       <DataTable
         table={table}
         floatingBar={
-          /*           featureFlags.includes('floatingBar') ? (
+          featureFlags.includes('floatingBar') ? (
             <TasksTableFloatingBar table={table} />
-          ) : null */
-          null
+          ) : null
         }
       />
     </div>

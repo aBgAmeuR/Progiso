@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { changeRoleOfMember, getProjectRoles } from './services';
 
 export const getProjectRolesAction = async () => {
@@ -18,5 +20,6 @@ export const changeRoleOfMemberAction = async (
 
   if (!res) return null;
 
+  revalidatePath('/team');
   return res;
 };
