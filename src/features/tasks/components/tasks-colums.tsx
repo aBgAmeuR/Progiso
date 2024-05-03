@@ -4,21 +4,32 @@ import { ICard } from '../types';
 import { AddCard } from './add-card';
 import { DropIndicator } from './drop-indicator';
 import { Card } from './task-card';
+import { TasksColumnHeader } from './tasks-column-header';
 
 type TColumProps = {
+  id: string;
   title: string;
   headingColor: string;
   cards: ICard[];
   column: string;
+  columnsLength: number;
+  order: number;
   setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
+  switchColumns: (id: string, direction: 'left' | 'right') => void;
+  deleteColumn: (id: string) => void;
 };
 
 export const Column = ({
+  id,
   title,
   headingColor,
   cards,
   column,
   setCards,
+  order,
+  columnsLength,
+  switchColumns,
+  deleteColumn,
 }: TColumProps) => {
   const [active, setActive] = useState(false);
 
@@ -126,12 +137,16 @@ export const Column = ({
 
   return (
     <div className="w-56 shrink-0">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className={`font-medium ${headingColor}`}>{title}</h3>
-        <span className="text-foreground rounded text-sm">
-          {filteredCards.length}
-        </span>
-      </div>
+      <TasksColumnHeader
+        id={id}
+        title={title}
+        color={headingColor}
+        lengthIndicator={filteredCards.length}
+        switchColumns={switchColumns}
+        columnsLength={columnsLength}
+        order={order}
+        deleteColumn={deleteColumn}
+      />
       <div
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}

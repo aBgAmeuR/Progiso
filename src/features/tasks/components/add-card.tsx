@@ -4,6 +4,8 @@ import { Plus } from 'lucide-react';
 
 import { ICard } from '../types';
 
+import { Button } from '@/components/ui/button';
+
 type TAddCardProps = {
   column: string;
   setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
@@ -40,19 +42,22 @@ export const AddCard = ({ column, setCards }: TAddCardProps) => {
             className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-neutral-50 placeholder:text-violet-300 focus:outline-0"
           />
           <div className="mt-1.5 flex items-center justify-end gap-1.5">
-            <button
+            <Button
               onClick={() => setAdding(false)}
-              className="px-3 py-1.5 text-xs text-neutral-400 transition-colors hover:text-neutral-50"
+              size="sm"
+              variant="ghost"
+              className="px-3 py-1.5 transition-colors"
             >
               Close
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
+              size="sm"
+              className="flex items-center gap-1.5"
             >
               <span>Add</span>
-              <Plus />
-            </button>
+              <Plus className="size-4" />
+            </Button>
           </div>
         </motion.form>
       ) : (
@@ -62,7 +67,7 @@ export const AddCard = ({ column, setCards }: TAddCardProps) => {
           className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-neutral-400 transition-colors hover:text-neutral-50"
         >
           <span>Add card</span>
-          <Plus />
+          <Plus className="size-4" />
         </motion.button>
       )}
     </>
