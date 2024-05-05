@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { ICard, IColumn } from '@/features/tasks/types';
+import { getCardsAction, getColumnsAction } from '@/features/tasks/actions';
+import { createCardAction } from '@/features/tasks/actions';
+import { ICard, IColumn, INewCard } from '@/features/tasks/types';
 
 type TUseTasksBoardProps = {
   initalCards: ICard[];
@@ -13,6 +16,27 @@ export const useTasksBoard = ({
 }: TUseTasksBoardProps) => {
   const [cards, setCards] = useState<ICard[]>(initalCards);
   const [columns, setColumns] = useState<IColumn[]>(initalColumns);
+  const queryClient = useQueryClient();
+
+  const { data: columnsData, isError: columnsError } = useQuery({
+    queryKey: ['columns'],
+    queryFn: async () => await getColumnsAction(),
+    initialData: initalColumns,
+  });
+
+  const { data: cardsData, isError: cardsError } = useQuery({
+    queryKey: ['cards'],
+    queryFn: async () => await getCardsAction(),
+    initialData: initalCards,
+  });
+
+  useEffect(() => {
+    setColumns(columnsData || []);
+  }, [columnsData]);
+
+  useEffect(() => {
+    setCards(cardsData || []);
+  }, [cardsData]);
 
   const switchColumns = (id: string, direction: 'left' | 'right') => {
     setColumns((prevColumns) => {
@@ -43,12 +67,44 @@ export const useTasksBoard = ({
     });
   };
 
+  const createCardMutation = useMutation({
+    mutationFn: async (newCard: INewCard) => {
+      const order =
+        cards.filter((card) => card.column === newCard.column).length + 1;
+      return await createCardAction({
+        ...newCard,
+        order,
+      });
+    },
+    onMutate: async (newCard: INewCard) => {
+      queryClient.cancelQueries({ queryKey: ['cards'] });
+
+      const order =
+        cards.filter((card) => card.column === newCard.column).length + 1;
+      setCards((prevCards) => [
+        ...prevCards,
+        {
+          id: 'temp',
+          ...newCard,
+          order,
+        },
+      ]);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cards'] });
+    },
+  });
+
+  const isError = columnsError || cardsError;
+
   return {
+    isError,
     cards,
     setCards,
     columns,
     setColumns,
     switchColumns,
     deleteColumn,
+    createCardMutation,
   };
 };

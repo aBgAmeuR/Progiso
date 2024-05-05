@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { UseMutationResult } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 
-import { ICard, ITag } from '../types';
+import { INewCard, ITag } from '../types';
 import { TagSelector } from './tag-selector';
 
 import { Button } from '@/components/ui/button';
@@ -10,10 +11,10 @@ import { Textarea } from '@/components/ui/textarea';
 
 type TAddCardProps = {
   column: string;
-  setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
+  createCardMutation: UseMutationResult<void, Error, INewCard, unknown>;
 };
 
-export const AddCard = ({ column, setCards }: TAddCardProps) => {
+export const AddCard = ({ column, createCardMutation }: TAddCardProps) => {
   const [text, setText] = useState('');
   const [tag, setTag] = useState<ITag | null>(null);
   const [adding, setAdding] = useState(false);
@@ -26,11 +27,10 @@ export const AddCard = ({ column, setCards }: TAddCardProps) => {
     const newCard = {
       column,
       title: text.trim(),
-      id: Math.random().toString(),
       tag,
     };
 
-    setCards((pv) => [...pv, newCard]);
+    createCardMutation.mutate(newCard);
 
     setAdding(false);
   };

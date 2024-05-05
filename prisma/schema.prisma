@@ -46,7 +46,7 @@ model User {
   accounts       Account[]
   sessions       Session[]
   projectMembers ProjectMember[]
-  taskAssignees  TaskAssignee[]
+  Task           Task[]
 }
 
 model VerificationToken {
@@ -84,44 +84,33 @@ model ProjectMember {
 }
 
 model Column {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  order  Int
-  tasks     Task[]
-  projectId String
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  order        Int
+  headingColor String
+  tasks        Task[]
+  projectId    String
+  project      Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Task {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  order      Int
-  content    String?
-  tagId      String?
-  columnId   String @db.ObjectId
-  assignees  TaskAssignee[]
-  created_at DateTime       @default(now())
-  updated_at DateTime       @updatedAt
-  column     Column         @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  tag        Tag?           @relation(fields: [tagId], references: [id], onDelete: SetNull)
-  @@index([columnId])
-}
-
-model TaskAssignee {
-  id     String @id @default(cuid()) @map("_id")
-  taskId String @db.ObjectId
-  userId String
-  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([taskId, userId])
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  order        Int
+  column       String   @db.ObjectId
+  tagName      String
+  userId       String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  columnDetail Column   @relation(fields: [column], references: [id], onDelete: Cascade)
+  tag          Tag      @relation(fields: [tagName], references: [name])
+  assignees    User     @relation(fields: [userId], references: [id])
 }
 
 model Tag {
-  id        String  @id @default(cuid()) @map("_id")
-  name      String
+  name      String   @id @map("_id")
   color     String
-  projectId String
-  tasks     Task[]
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  Task      Task[]
 }

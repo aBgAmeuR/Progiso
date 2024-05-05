@@ -2,8 +2,7 @@ import { Suspense } from 'react';
 
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { TasksBoard } from '@/features/tasks/components/tasks-board';
-import { DEFAULT_CARDS, DEFAULT_COLUMNS } from '@/features/tasks/types';
+import { TasksBoardSSR } from '@/features/tasks/components/tasks-board-ssr';
 
 export default async function TasksPage() {
   return (
@@ -23,10 +22,7 @@ export default async function TasksPage() {
       <ScrollArea className="flex flex-1">
         <Suspense fallback={null}>
           {/* <TasksBoard /> */}
-          <TasksBoard
-            initalCards={DEFAULT_CARDS}
-            initalColumns={DEFAULT_COLUMNS}
-          />
+          <TasksBoardSSR />
         </Suspense>
         <ScrollBar orientation="horizontal" />
         <ScrollBar orientation="vertical" />

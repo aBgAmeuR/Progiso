@@ -15,8 +15,14 @@ export const TasksBoard = ({
   initalCards,
   initalColumns,
 }: TTasksBoardProps) => {
-  const { cards, setCards, columns, switchColumns, deleteColumn } =
-    useTasksBoard({ initalCards, initalColumns });
+  const {
+    cards,
+    setCards,
+    columns,
+    switchColumns,
+    deleteColumn,
+    createCardMutation,
+  } = useTasksBoard({ initalCards, initalColumns });
 
   return (
     <div className="flex size-full gap-3">
@@ -31,6 +37,7 @@ export const TasksBoard = ({
             switchColumns={switchColumns}
             columnsLength={columns.length}
             deleteColumn={deleteColumn}
+            createCardMutation={createCardMutation}
           />
         ))}
       <BurnBarrel setCards={setCards} />

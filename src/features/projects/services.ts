@@ -31,16 +31,44 @@ export const createProject = async (newProject: TCreateProject) => {
       columns: {
         create: [
           {
-            title: 'To do',
-            order: 0,
+            title: 'Backlog',
+            order: 1,
+            headingColor: 'text-neutral-400 dark:text-neutral-200',
+          },
+          {
+            title: 'TODO',
+            order: 2,
+            headingColor: 'text-yellow-400 dark:text-yellow-200',
           },
           {
             title: 'In progress',
-            order: 1,
+            order: 3,
+            headingColor: 'text-blue-400 dark:text-blue-200',
           },
           {
-            title: 'Done',
-            order: 2,
+            title: 'Complete',
+            order: 4,
+            headingColor: 'text-emerald-400 dark:text-emerald-200',
+          },
+        ],
+      },
+      tags: {
+        create: [
+          {
+            name: 'Urgent',
+            color: 'red',
+          },
+          {
+            name: 'High',
+            color: 'yellow',
+          },
+          {
+            name: 'Medium',
+            color: 'blue',
+          },
+          {
+            name: 'Low',
+            color: 'green',
           },
         ],
       },
