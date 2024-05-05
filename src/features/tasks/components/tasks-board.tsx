@@ -1,60 +1,35 @@
 'use client';
 
-import { useState } from 'react';
-
-import { DEFAULT_CARDS, DEFAULT_COLUMNS, ICard, IColumn } from '../types';
+import { ICard, IColumn } from '../types';
 import { BurnBarrel } from './burn-barrel';
 import { Column } from './tasks-colums';
 
-export const TasksBoard = () => {
-  const [cards, setCards] = useState<ICard[]>(DEFAULT_CARDS);
-  const [colums, setColumns] = useState<IColumn[]>(DEFAULT_COLUMNS);
+import { useTasksBoard } from '@/hooks/use-tasks-board';
 
-  const switchColumns = (id: string, direction: 'left' | 'right') => {
-    setColumns((prevColumns) => {
-      const currentIndex = prevColumns.findIndex((column) => column.id === id);
-      const targetIndex =
-        direction === 'left'
-          ? Math.max(0, currentIndex - 1)
-          : Math.min(prevColumns.length - 1, currentIndex + 1);
-      const updatedColumns = [...prevColumns];
-      const [movedColumn] = updatedColumns.splice(currentIndex, 1);
-      updatedColumns.splice(targetIndex, 0, movedColumn);
-      updatedColumns.forEach((column, index) => {
-        column.order = index + 1;
-      });
-      return updatedColumns;
-    });
-  };
+type TTasksBoardProps = {
+  initalCards: ICard[];
+  initalColumns: IColumn[];
+};
 
-  const deleteColumn = (id: string) => {
-    setColumns((prevColumns) => {
-      const updatedColumns = prevColumns.filter((column) => column.id !== id);
-      setCards((prevCards) =>
-        prevCards.filter((card) =>
-          updatedColumns.some((column) => column.id === card.column)
-        )
-      );
-      return updatedColumns;
-    });
-  };
+export const TasksBoard = ({
+  initalCards,
+  initalColumns,
+}: TTasksBoardProps) => {
+  const { cards, setCards, columns, switchColumns, deleteColumn } =
+    useTasksBoard({ initalCards, initalColumns });
 
   return (
-    <div className="flex size-full gap-3 overflow-scroll">
-      {colums
+    <div className="flex size-full gap-3">
+      {columns
         .sort((a, b) => a.order - b.order)
-        .map((column, index) => (
+        .map((column) => (
           <Column
             key={column.id}
-            column={column.id}
-            title={column.title}
-            headingColor={column.headingColor}
-            id={column.id}
+            column={column}
             cards={cards}
             setCards={setCards}
             switchColumns={switchColumns}
-            columnsLength={colums.length}
-            order={index}
+            columnsLength={columns.length}
             deleteColumn={deleteColumn}
           />
         ))}

@@ -3,9 +3,7 @@ import { Suspense } from 'react';
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { TasksBoard } from '@/features/tasks/components/tasks-board';
-// import { CreateTasks } from '@/features/tasksv1/components/create-task';
-// import { TasksBoard } from '@/features/tasksv1/components/tasks-board';
-import { TasksBoardSkeleton } from '@/features/tasksv1/components/tasks-board-skeleton';
+import { DEFAULT_CARDS, DEFAULT_COLUMNS } from '@/features/tasks/types';
 
 export default async function TasksPage() {
   return (
@@ -22,13 +20,13 @@ export default async function TasksPage() {
         </div>
         {/* <CreateTasks /> */}
       </div>
-      <ScrollArea
-        className="flex flex-1 overflow-scroll"
-        id="custom-drag-overlay-container"
-      >
-        <Suspense fallback={<TasksBoardSkeleton />}>
+      <ScrollArea className="flex flex-1">
+        <Suspense fallback={null}>
           {/* <TasksBoard /> */}
-          <TasksBoard />
+          <TasksBoard
+            initalCards={DEFAULT_CARDS}
+            initalColumns={DEFAULT_COLUMNS}
+          />
         </Suspense>
         <ScrollBar orientation="horizontal" />
         <ScrollBar orientation="vertical" />

@@ -8,6 +8,7 @@ import {
   Trash2,
 } from 'lucide-react';
 
+import { IColumn } from '../types';
 import { DeleteColumnDialog } from './delete-colum-dialog';
 
 import {
@@ -21,9 +22,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 type TTasksColumnHeaderProps = {
-  id: string;
-  title: string;
-  color: string;
+  column: IColumn;
   lengthIndicator: number;
   order: number;
   columnsLength: number;
@@ -32,9 +31,7 @@ type TTasksColumnHeaderProps = {
 };
 
 export const TasksColumnHeader = ({
-  id,
-  title,
-  color,
+  column,
   lengthIndicator,
   switchColumns,
   columnsLength,
@@ -42,7 +39,7 @@ export const TasksColumnHeader = ({
   deleteColumn,
 }: TTasksColumnHeaderProps) => {
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
-  const [editTitle, setEditTitle] = useState<string>(title);
+  const [editTitle, setEditTitle] = useState<string>(column.title);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   const showLeftSwitch = order > 0;
@@ -51,8 +48,8 @@ export const TasksColumnHeader = ({
   return (
     <div className="group mb-3 flex items-center justify-between">
       <DeleteColumnDialog
-        columnId={id}
-        columnTitle={title}
+        columnId={column.id}
+        columnTitle={column.title}
         deleteColumn={deleteColumn}
         open={showDeleteModal}
         onOpenChange={setShowDeleteModal}
@@ -66,7 +63,7 @@ export const TasksColumnHeader = ({
             variant="outline"
             sizes="sm"
             autoFocus
-            className={cn('h-6 p-0 text-base font-medium', color)}
+            className={cn('h-6 p-0 text-base font-medium', column.headingColor)}
           />
           <Check
             onClick={() => setIsEditTitle(false)}
@@ -76,7 +73,9 @@ export const TasksColumnHeader = ({
       ) : (
         <>
           <div className="flex w-5/6 items-center gap-2">
-            <h3 className={cn('truncate font-medium', color)}>{editTitle}</h3>
+            <h3 className={cn('truncate font-medium', column.headingColor)}>
+              {editTitle}
+            </h3>
 
             <DropdownMenu>
               <DropdownMenuTrigger className="focus-visible:outline-none">
@@ -94,7 +93,7 @@ export const TasksColumnHeader = ({
                 {showLeftSwitch ? (
                   <DropdownMenuItem
                     className="flex items-center gap-1"
-                    onClick={() => switchColumns(id, 'left')}
+                    onClick={() => switchColumns(column.id, 'left')}
                   >
                     <ArrowLeftRight className="size-4" />
                     <p>Switch Left</p>
@@ -103,7 +102,7 @@ export const TasksColumnHeader = ({
                 {showRightSwitch ? (
                   <DropdownMenuItem
                     className="flex items-center gap-1"
-                    onClick={() => switchColumns(id, 'right')}
+                    onClick={() => switchColumns(column.id, 'right')}
                   >
                     <ArrowRightLeft className="size-4" />
                     <p>Switch Right</p>
