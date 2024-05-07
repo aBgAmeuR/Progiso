@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { UseMutationResult } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 
-import { INewCard, ITag } from '../types';
+import { ITag } from '../types';
+import { useKanbanContext } from './kanban';
 import { TagSelector } from './tag-selector';
 
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,13 @@ import { Textarea } from '@/components/ui/textarea';
 
 type TAddCardProps = {
   column: string;
-  createCardMutation: UseMutationResult<void, Error, INewCard, unknown>;
 };
 
-export const AddCard = ({ column, createCardMutation }: TAddCardProps) => {
+export const AddCard = ({ column }: TAddCardProps) => {
   const [text, setText] = useState('');
   const [tag, setTag] = useState<ITag | null>(null);
   const [adding, setAdding] = useState(false);
+  const { createCardMutation } = useKanbanContext();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -10,6 +10,7 @@ import {
 
 import { IColumn } from '../types';
 import { DeleteColumnDialog } from './delete-colum-dialog';
+import { useKanbanContext } from './kanban';
 
 import {
   DropdownMenu,
@@ -26,31 +27,39 @@ type TTasksColumnHeaderProps = {
   lengthIndicator: number;
   order: number;
   columnsLength: number;
-  switchColumns: (id: string, direction: 'left' | 'right') => void;
-  deleteColumn: (id: string) => void;
 };
 
 export const TasksColumnHeader = ({
   column,
   lengthIndicator,
-  switchColumns,
   columnsLength,
   order,
-  deleteColumn,
 }: TTasksColumnHeaderProps) => {
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(column.title);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
-  const showLeftSwitch = order > 0;
+  const showLeftSwitch = order > 1;
   const showRightSwitch = order < columnsLength;
+
+  const { switchColumnsMutation, updateColumnMutation } = useKanbanContext();
+
+  const changeColumnTitle = () => {
+    setIsEditTitle(false);
+
+    if (editTitle === column.title) return;
+
+    updateColumnMutation.mutate({
+      ...column,
+      title: editTitle,
+    });
+  };
 
   return (
     <div className="group mb-3 flex items-center justify-between">
       <DeleteColumnDialog
         columnId={column.id}
         columnTitle={column.title}
-        deleteColumn={deleteColumn}
         open={showDeleteModal}
         onOpenChange={setShowDeleteModal}
         showTrigger={false}
@@ -66,7 +75,7 @@ export const TasksColumnHeader = ({
             className={cn('h-6 p-0 text-base font-medium', column.headingColor)}
           />
           <Check
-            onClick={() => setIsEditTitle(false)}
+            onClick={changeColumnTitle}
             className="bg-secondary hover:bg-primary size-6 cursor-pointer rounded-sm p-1"
           />
         </div>
@@ -93,7 +102,12 @@ export const TasksColumnHeader = ({
                 {showLeftSwitch ? (
                   <DropdownMenuItem
                     className="flex items-center gap-1"
-                    onClick={() => switchColumns(column.id, 'left')}
+                    onClick={() =>
+                      switchColumnsMutation.mutate({
+                        id: column.id,
+                        direction: 'left',
+                      })
+                    }
                   >
                     <ArrowLeftRight className="size-4" />
                     <p>Switch Left</p>
@@ -102,7 +116,12 @@ export const TasksColumnHeader = ({
                 {showRightSwitch ? (
                   <DropdownMenuItem
                     className="flex items-center gap-1"
-                    onClick={() => switchColumns(column.id, 'right')}
+                    onClick={() =>
+                      switchColumnsMutation.mutate({
+                        id: column.id,
+                        direction: 'right',
+                      })
+                    }
                   >
                     <ArrowRightLeft className="size-4" />
                     <p>Switch Right</p>

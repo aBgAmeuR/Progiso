@@ -3,6 +3,8 @@
 import * as React from 'react';
 import { TrashIcon } from '@radix-ui/react-icons';
 
+import { useKanbanContext } from './kanban';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -21,17 +23,16 @@ interface DeleteColumnDialogProps
   columnTitle: string;
   onSuccess?: () => void;
   showTrigger?: boolean;
-  deleteColumn: (id: string) => void;
 }
 
 export function DeleteColumnDialog({
   columnId,
   columnTitle,
   showTrigger = true,
-  deleteColumn,
   ...props
 }: DeleteColumnDialogProps) {
   const [isDeletePending, startDeleteTransition] = React.useTransition();
+  const { deleteColumnMutation } = useKanbanContext();
 
   return (
     <Dialog {...props}>
@@ -62,7 +63,7 @@ export function DeleteColumnDialog({
               variant="destructive"
               onClick={() => {
                 startDeleteTransition(() => {
-                  deleteColumn(columnId);
+                  deleteColumnMutation.mutate(columnId);
                 });
               }}
               disabled={isDeletePending}

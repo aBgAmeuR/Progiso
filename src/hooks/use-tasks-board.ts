@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { getCardsAction, getColumnsAction } from '@/features/tasks/actions';
-import { createCardAction } from '@/features/tasks/actions';
 import { ICard, IColumn, INewCard } from '@/features/tasks/types';
 
 type TUseTasksBoardProps = {
@@ -16,7 +15,6 @@ export const useTasksBoard = ({
 }: TUseTasksBoardProps) => {
   const [cards, setCards] = useState<ICard[]>(initalCards);
   const [columns, setColumns] = useState<IColumn[]>(initalColumns);
-  const queryClient = useQueryClient();
 
   const { data: columnsData, isError: columnsError } = useQuery({
     queryKey: ['columns'],
@@ -38,73 +36,73 @@ export const useTasksBoard = ({
     setCards(cardsData || []);
   }, [cardsData]);
 
+  const createColumn = (title: string, headingColor: string) => {
+    const order = columns.length + 1;
+    const newColumn = { id: String(order), title, headingColor, order };
+    setColumns([...columns, newColumn]);
+  };
+
   const switchColumns = (id: string, direction: 'left' | 'right') => {
-    setColumns((prevColumns) => {
-      const currentIndex = prevColumns.findIndex((column) => column.id === id);
-      const targetIndex =
-        direction === 'left'
-          ? Math.max(0, currentIndex - 1)
-          : Math.min(prevColumns.length - 1, currentIndex + 1);
-      const updatedColumns = [...prevColumns];
-      const [movedColumn] = updatedColumns.splice(currentIndex, 1);
-      updatedColumns.splice(targetIndex, 0, movedColumn);
-      updatedColumns.forEach((column, index) => {
-        column.order = index + 1;
-      });
-      return updatedColumns;
-    });
+    const currentIndex = columns.findIndex((column) => column.id === id);
+    const targetIndex =
+      direction === 'left'
+        ? Math.max(0, currentIndex - 1)
+        : Math.min(columns.length - 1, currentIndex + 1);
+
+    const updatedColumns = [...columns];
+    const [movedColumn] = updatedColumns.splice(currentIndex, 1);
+
+    updatedColumns.splice(targetIndex, 0, movedColumn);
+    updatedColumns.forEach((column, index) => (column.order = index + 1));
+
+    setColumns(updatedColumns);
   };
 
   const deleteColumn = (id: string) => {
-    setColumns((prevColumns) => {
-      const updatedColumns = prevColumns.filter((column) => column.id !== id);
-      setCards((prevCards) =>
-        prevCards.filter((card) =>
-          updatedColumns.some((column) => column.id === card.column)
-        )
-      );
-      return updatedColumns;
-    });
+    const updatedColumns = columns.filter((column) => column.id !== id);
+    const updatedCards = cards.filter((card) => card.column !== id);
+    setCards(updatedCards);
+    setColumns(updatedColumns);
   };
 
-  const createCardMutation = useMutation({
-    mutationFn: async (newCard: INewCard) => {
-      const order =
-        cards.filter((card) => card.column === newCard.column).length + 1;
-      return await createCardAction({
-        ...newCard,
-        order,
-      });
-    },
-    onMutate: async (newCard: INewCard) => {
-      queryClient.cancelQueries({ queryKey: ['cards'] });
+  const updateColumn = (column: Omit<IColumn, 'order'>) => {
+    const updatedColumns = columns.map((col) =>
+      col.id === column.id ? { ...col, ...column } : col
+    );
+    setColumns(updatedColumns);
+  };
 
-      const order =
-        cards.filter((card) => card.column === newCard.column).length + 1;
-      setCards((prevCards) => [
-        ...prevCards,
-        {
-          id: 'temp',
-          ...newCard,
-          order,
-        },
-      ]);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['cards'] });
-    },
-  });
+  const createCard = (card: INewCard) => {
+    const order = cards.filter((c) => c.column === card.column).length + 1;
+    const newCard = { ...card, id: String(cards.length + 1), order };
+    setCards([...cards, newCard]);
+  };
+
+  const updateCard = (card: ICard) => {
+    const updatedCards = cards.map((c) => (c.id === card.id ? card : c));
+    setCards(updatedCards);
+  };
+
+  const deleteCard = (id: string) => {
+    const updatedCards = cards.filter((card) => card.id !== id);
+    setCards(updatedCards);
+  };
 
   const isError = columnsError || cardsError;
 
   return {
     isError,
+    kanban: {
+      createColumn,
+      switchColumns,
+      deleteColumn,
+      updateColumn,
+      createCard,
+      updateCard,
+      deleteCard,
+    },
+    columns,
     cards,
     setCards,
-    columns,
-    setColumns,
-    switchColumns,
-    deleteColumn,
-    createCardMutation,
   };
 };

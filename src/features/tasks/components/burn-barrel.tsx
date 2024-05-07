@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { Flame, Trash } from 'lucide-react';
 
-import { ICard } from '../types';
+import { useKanbanContext } from './kanban';
 
-type TBurnBarrelProps = {
-  setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
-};
-
-export const BurnBarrel = ({ setCards }: TBurnBarrelProps) => {
+export const BurnBarrel = () => {
   const [active, setActive] = useState(false);
+  const { deleteCardMutation } = useKanbanContext();
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -21,8 +18,7 @@ export const BurnBarrel = ({ setCards }: TBurnBarrelProps) => {
 
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     const cardId = e.dataTransfer.getData('cardId');
-    console.log('Card ID:', cardId);
-    setCards((pv) => pv.filter((c) => c.id !== cardId));
+    deleteCardMutation.mutate(cardId);
 
     setActive(false);
   };

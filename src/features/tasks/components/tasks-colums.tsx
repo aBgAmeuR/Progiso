@@ -1,6 +1,4 @@
-import { UseMutationResult } from '@tanstack/react-query';
-
-import { ICard, IColumn, INewCard } from '../types';
+import { ICard, IColumn } from '../types';
 import { AddCard } from './add-card';
 import { DropIndicator } from './drop-indicator';
 import { Card } from './task-card';
@@ -14,9 +12,6 @@ type TColumProps = {
   cards: ICard[];
   columnsLength: number;
   setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
-  switchColumns: (id: string, direction: 'left' | 'right') => void;
-  deleteColumn: (id: string) => void;
-  createCardMutation: UseMutationResult<void, Error, INewCard, unknown>;
 };
 
 export const Column = ({
@@ -24,9 +19,6 @@ export const Column = ({
   cards,
   columnsLength,
   setCards,
-  switchColumns,
-  deleteColumn,
-  createCardMutation,
 }: TColumProps) => {
   const {
     active,
@@ -48,8 +40,6 @@ export const Column = ({
         columnsLength={columnsLength}
         order={column.order}
         lengthIndicator={filteredCards.length}
-        switchColumns={switchColumns}
-        deleteColumn={deleteColumn}
       />
       <div
         onDrop={handleDragEnd}
@@ -64,7 +54,7 @@ export const Column = ({
           return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
         })}
         <DropIndicator beforeId={null} column={column.id} />
-        <AddCard column={column.id} createCardMutation={createCardMutation} />
+        <AddCard column={column.id} />
       </div>
     </div>
   );
