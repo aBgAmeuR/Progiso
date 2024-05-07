@@ -49,6 +49,13 @@ export const getCards = async () => {
           color: true,
         },
       },
+      assignees: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
     },
   });
 

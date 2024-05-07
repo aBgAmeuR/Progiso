@@ -1,17 +1,23 @@
 import { useState } from 'react';
 
+import { UseTasksMutation } from './use-tasks-mutation';
+
 import { ICard, IColumn } from '@/features/tasks/types';
 
 type UseTasksColumnProps = {
   column: IColumn;
   cards: ICard[];
   setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
+  updateCardMutation: ReturnType<
+    typeof UseTasksMutation
+  >['mutation']['updateCardMutation'];
 };
 
 export const useTasksColumn = ({
   column,
   cards,
   setCards,
+  updateCardMutation,
 }: UseTasksColumnProps) => {
   const [active, setActive] = useState<boolean>(false);
 
@@ -40,15 +46,20 @@ export const useTasksColumn = ({
       copy = copy.filter((c) => c.id !== cardId);
 
       const moveToBack = before === '-1';
+      const insertAtIndex = copy.findIndex((el) => el.id === before);
 
       if (moveToBack) {
         copy.push(cardToTransfer);
       } else {
-        const insertAtIndex = copy.findIndex((el) => el.id === before);
         if (insertAtIndex === undefined) return;
 
         copy.splice(insertAtIndex, 0, cardToTransfer);
       }
+
+      updateCardMutation.mutate({
+        ...cardToTransfer,
+        order: copy.findIndex((c) => c.id === cardToTransfer.id),
+      });
 
       setCards(copy);
     }

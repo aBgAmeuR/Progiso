@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { useTasksBoard } from './use-tasks-board';
 
@@ -11,7 +12,8 @@ import {
   updateCardAction,
   updateColumnAction,
 } from '@/features/tasks/actions';
-import { INewCard } from '@/features/tasks/types';
+import { ICard, IColumn, INewCard } from '@/features/tasks/types';
+import { getErrorMessage } from '@/lib/handle-error';
 
 type TUseTasksMutationprops = ReturnType<typeof useTasksBoard>['kanban'];
 
@@ -28,7 +30,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
   } = props;
 
   const createCardMutation = useMutation({
-    mutationFn: (newCard: INewCard) => createCardAction(newCard),
+    mutationFn: async (newCard: INewCard) => {
+      toast.promise(createCardAction(newCard), {
+        loading: 'Creating card...',
+        success: 'Card created successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async (newCard: INewCard) => {
       await queryClient.cancelQueries({ queryKey: ['cards'] });
       createCard(newCard);
@@ -40,7 +48,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
   });
 
   const updateCardMutation = useMutation({
-    mutationFn: updateCardAction,
+    mutationFn: async (card: ICard) => {
+      toast.promise(updateCardAction(card), {
+        loading: 'Updating card...',
+        success: 'Card updated successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async (card) => {
       await queryClient.cancelQueries({ queryKey: ['cards'] });
       updateCard(card);
@@ -52,7 +66,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
   });
 
   const deleteCardMutation = useMutation({
-    mutationFn: deleteCardAction,
+    mutationFn: async (id: string) => {
+      toast.promise(deleteCardAction(id), {
+        loading: 'Deleting card...',
+        success: 'Card deleted successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['cards'] });
       deleteCard(id);
@@ -68,8 +88,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
     headingColor: string;
   };
   const createColumnMutation = useMutation({
-    mutationFn: ({ title, headingColor }: TCreateColumnMutation) =>
-      createColumnAction(title, headingColor),
+    mutationFn: async ({ title, headingColor }: TCreateColumnMutation) => {
+      toast.promise(createColumnAction(title, headingColor), {
+        loading: 'Creating column...',
+        success: 'Column created successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async ({ title, headingColor }: TCreateColumnMutation) => {
       await queryClient.cancelQueries({ queryKey: ['columns'] });
       createColumn(title, headingColor);
@@ -81,7 +106,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
   });
 
   const updateColumnMutation = useMutation({
-    mutationFn: updateColumnAction,
+    mutationFn: async (column: IColumn) => {
+      toast.promise(updateColumnAction(column), {
+        loading: 'Updating column...',
+        success: 'Column updated successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async (column) => {
       await queryClient.cancelQueries({ queryKey: ['columns'] });
       updateColumn(column);
@@ -93,7 +124,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
   });
 
   const deleteColumnMutation = useMutation({
-    mutationFn: deleteColumnAction,
+    mutationFn: async (id: string) => {
+      toast.promise(deleteColumnAction(id), {
+        loading: 'Deleting column...',
+        success: 'Column deleted successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['columns'] });
       deleteColumn(id);
@@ -109,8 +146,13 @@ export const UseTasksMutation = (props: TUseTasksMutationprops) => {
     direction: 'left' | 'right';
   };
   const switchColumnsMutation = useMutation({
-    mutationFn: ({ id, direction }: TSwitchColumnsMutation) =>
-      switchColumnsAction(id, direction),
+    mutationFn: async ({ id, direction }: TSwitchColumnsMutation) => {
+      toast.promise(switchColumnsAction(id, direction), {
+        loading: 'Switching columns...',
+        success: 'Columns switched successfully',
+        error: (err: unknown) => getErrorMessage(err),
+      });
+    },
     onMutate: async ({ id, direction }: TSwitchColumnsMutation) => {
       await queryClient.cancelQueries({ queryKey: ['columns'] });
       switchColumns(id, direction);

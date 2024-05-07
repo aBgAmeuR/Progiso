@@ -1,3 +1,4 @@
+import { DEFAULT_TAGS } from '../tasks/types';
 import { TCreateProject } from './types';
 
 import { getServerSession } from '@/lib/auth';
@@ -53,24 +54,10 @@ export const createProject = async (newProject: TCreateProject) => {
         ],
       },
       tags: {
-        create: [
-          {
-            name: 'Urgent',
-            color: 'red',
-          },
-          {
-            name: 'High',
-            color: 'yellow',
-          },
-          {
-            name: 'Medium',
-            color: 'blue',
-          },
-          {
-            name: 'Low',
-            color: 'green',
-          },
-        ],
+        create: DEFAULT_TAGS.map((tag) => ({
+          name: tag.name,
+          color: tag.color,
+        })),
       },
     },
   });

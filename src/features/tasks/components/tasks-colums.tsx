@@ -1,6 +1,7 @@
 import { ICard, IColumn } from '../types';
 import { AddCard } from './add-card';
 import { DropIndicator } from './drop-indicator';
+import { useKanbanContext } from './kanban';
 import { Card } from './task-card';
 import { TasksColumnHeader } from './tasks-column-header';
 
@@ -20,6 +21,7 @@ export const Column = ({
   columnsLength,
   setCards,
 }: TColumProps) => {
+  const { updateCardMutation } = useKanbanContext();
   const {
     active,
     filteredCards,
@@ -31,6 +33,7 @@ export const Column = ({
     column,
     cards,
     setCards,
+    updateCardMutation,
   });
 
   return (
@@ -51,7 +54,7 @@ export const Column = ({
         )}
       >
         {filteredCards.map((c) => {
-          return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
+          return <Card key={c.id} card={c} handleDragStart={handleDragStart} />;
         })}
         <DropIndicator beforeId={null} column={column.id} />
         <AddCard column={column.id} />
