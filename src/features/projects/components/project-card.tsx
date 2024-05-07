@@ -35,7 +35,7 @@ export const ProjectCard = ({
           <AvatarFallback>{project.name[0]}</AvatarFallback>
         </Avatar>
         <div className="flex w-10/12 flex-col">
-          <CardTitle className="line-clamp-1 h-10 break-all leading-8">
+          <CardTitle className="line-clamp-1 break-all">
             {project.name}
           </CardTitle>
           <CardDescription>
