@@ -1,4 +1,3 @@
-import { DEFAULT_TAGS } from '../tasks/types';
 import { TCreateProject } from './types';
 
 import { getServerSession } from '@/lib/auth';
@@ -53,12 +52,6 @@ export const createProject = async (newProject: TCreateProject) => {
           },
         ],
       },
-      tags: {
-        create: DEFAULT_TAGS.map((tag) => ({
-          name: tag.name,
-          color: tag.color,
-        })),
-      },
     },
   });
 
@@ -87,4 +80,22 @@ export const getSelectedProject = async () => {
   if (!session) return null;
 
   return session.user.selectProject;
+};
+
+export const getDetailProject = async (projectId: string) => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      members: {
+        some: {
+          userId: session.user.id,
+        },
+      },
+    },
+  });
+
+  return project;
 };

@@ -35,3 +35,15 @@ export function composeEventHandlers<E>(
     }
   };
 }
+
+/**
+ * Get the owner and repo name from a github url
+ * @param url
+ * @returns
+ * @example
+ * getDetailOfGithubRepoUrl('https://github.com/owner/repo') // { owner: 'owner', repo: 'repo' }
+ */
+export const getDetailOfGithubRepoUrl = (url: string) => {
+  const [owner, repo] = url.replace('https://github.com/', '').split('/');
+  return { owner, repo };
+};

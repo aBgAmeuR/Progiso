@@ -10,7 +10,7 @@ export const ProjectsList = async () => {
 
   if (!project) return null;
 
-  if (!project.length)
+  if (project.length <= 0) {
     return (
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed py-8 shadow-sm">
         <div className="flex flex-col items-center gap-2 text-center">
@@ -26,6 +26,7 @@ export const ProjectsList = async () => {
         </div>
       </div>
     );
+  }
 
   return <FilterProjectsList projects={project} />;
 };

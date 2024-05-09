@@ -74,7 +74,16 @@ export const useTasksBoard = ({
 
   const createCard = (card: INewCard) => {
     const order = cards.filter((c) => c.column === card.column).length + 1;
-    const newCard = { ...card, id: String(cards.length + 1), order };
+    const newCard: ICard = {
+      ...card,
+      id: String(cards.length + 1),
+      order,
+      assignees: {
+        id: '1',
+        name: null,
+        image: null,
+      },
+    };
     setCards([...cards, newCard]);
   };
 

@@ -13,6 +13,9 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: env.NEXT_PUBLIC_GITHUB_ID || '',
       clientSecret: env.NEXT_PUBLIC_GITHUB_SECRET || '',
+      authorization: {
+        params: { scope: 'repo,read:user,user:email,offline_access' },
+      },
     }),
   ],
   session: {
