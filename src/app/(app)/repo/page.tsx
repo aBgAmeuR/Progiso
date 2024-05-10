@@ -19,12 +19,17 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { TCommit } from '@/features/repository/type';
-import { getCommitsStats, getIssuesAndPRStats } from '@/lib/github';
+import { TCommit, TContributor } from '@/features/repository/type';
+import {
+  getCommitsStats,
+  getContributorsOfProject,
+  getIssuesAndPRStats,
+} from '@/lib/github';
 
 export default async function RepoPage() {
   const issueAndPRStats = await getIssuesAndPRStats();
   const commitsStats = await getCommitsStats();
+  const contributors = await getContributorsOfProject();
 
   const progressPR = Math.round(
     (issueAndPRStats.openPullRequests.totalCount /
@@ -39,14 +44,6 @@ export default async function RepoPage() {
       100
   );
 
-  /**
-   *
-   * Return 3d ago
-   * or 4h ago
-   * or 4min ago
-   * or now if < 1min
-   * or 1w ago
-   */
   const getTimeAgo = (date: Date) => {
     const formatDate = new Date(date);
     const currentDate = new Date();
@@ -69,6 +66,12 @@ export default async function RepoPage() {
     }
 
     return 'now';
+  };
+
+  const getProgressContributorValue = (contributor: TContributor): number => {
+    const firstContributor: TContributor = contributors[0];
+    const coef = contributor.contributions / firstContributor.contributions;
+    return coef * 100;
   };
 
   return (
@@ -194,7 +197,7 @@ export default async function RepoPage() {
                     asChild
                   >
                     <Link href={commit.node.commitUrl} target="_blank">
-                      <ExternalLink />
+                      <ExternalLink className="size-5" />
                     </Link>
                   </Button>
                 </div>
@@ -210,6 +213,36 @@ export default async function RepoPage() {
                 />
               </Link>
             </CardFooter>
+          </Card>
+          <Card>
+            <CardHeader className="bg-muted/20 p-4">
+              <h2 className="text-lg font-semibold">Top contributors</h2>
+            </CardHeader>
+            <Separator />
+            <CardContent className="flex flex-col gap-3 p-4">
+              {contributors.map((contributor: TContributor) => (
+                <div key={contributor.id} className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-2">
+                    <p>{contributor.login}</p>
+                    <Avatar className="size-6">
+                      <AvatarImage src={contributor.avatar_url} />
+                      <AvatarFallback>
+                        {contributor.login.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Progress
+                      value={getProgressContributorValue(contributor)}
+                      className="h-4 rounded-md bg-transparent *:rounded-md"
+                    />
+                    <p className="text-muted-foreground">
+                      {contributor.contributions}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
           </Card>
         </div>
       </div>

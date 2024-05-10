@@ -13,3 +13,11 @@ export type TCommit = {
     } | null;
   };
 };
+
+export type TContributor = {
+  login: string;
+  id: 113059124;
+  avatar_url: string;
+  html_url: string;
+  contributions: number;
+};
