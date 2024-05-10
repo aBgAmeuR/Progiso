@@ -13,8 +13,10 @@ export const getContributorsOfProject = async () => {
   const detailProject = await getDetailProject(selectProject.id);
   if (!detailProject) return;
 
+  const { owner, repo } = getDetailOfGithubRepoUrl(detailProject.github_url!);
+
   const response = await fetch(
-    `https://api.github.com/repos/${detailProject.github_url}/contributors`,
+    `https://api.github.com/repos/${owner}/${repo}/contributors`,
     {
       headers: {
         Authorization: `Bearer ${access_token}`,

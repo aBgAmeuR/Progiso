@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { parseAsJson, useQueryState } from 'nuqs';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -36,6 +37,7 @@ export const CreateProjectForm = () => {
       name: '',
     },
   });
+  const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setFormValues] = useQueryState(
     'zod',
@@ -48,6 +50,8 @@ export const CreateProjectForm = () => {
       success: 'Project created successfully',
       error: (err: unknown) => getErrorMessage(err),
     });
+
+    router.push('/projects');
   };
 
   return (
