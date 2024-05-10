@@ -17,11 +17,9 @@ export default async function TasksPage() {
             </p>
           </div>
         </div>
-        {/* <CreateTasks /> */}
       </div>
       <ScrollArea className="flex flex-1">
         <Suspense fallback={null}>
-          {/* <TasksBoard /> */}
           <TasksBoardSSR />
         </Suspense>
         <ScrollBar orientation="horizontal" />

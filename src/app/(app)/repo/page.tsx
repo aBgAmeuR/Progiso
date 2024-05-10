@@ -220,7 +220,7 @@ export default async function RepoPage() {
             </CardHeader>
             <Separator />
             <CardContent className="flex flex-col gap-3 p-4">
-              {contributors.map((contributor: TContributor) => (
+              {contributors.slice(0, 6).map((contributor: TContributor) => (
                 <div key={contributor.id} className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-2">
                     <p>{contributor.login}</p>
