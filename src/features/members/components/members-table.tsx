@@ -3,11 +3,18 @@
 import Fuse from 'fuse.js';
 import { useQueryState } from 'nuqs';
 
-import { getProjectMembers } from '../services';
+import { TMember } from '../types';
+import { AddMemberDialog } from './add-member-dialog';
 import { MemberTableRow } from './member-table-row';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const options = {
   keys: ['user.name'],
@@ -15,10 +22,14 @@ const options = {
 };
 
 type TMembersTableProps = {
-  members: Awaited<ReturnType<typeof getProjectMembers>>;
+  members: TMember[];
+  currentUserRole: string;
 };
 
-export const MembersTable = ({ members }: TMembersTableProps) => {
+export const MembersTable = ({
+  members,
+  currentUserRole,
+}: TMembersTableProps) => {
   const [nameFilter, setNameFilter] = useQueryState('name');
   const fuse = new Fuse(members || [], options);
 
@@ -28,31 +39,37 @@ export const MembersTable = ({ members }: TMembersTableProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <Input
           value={nameFilter || ''}
           onChange={(e) => setNameFilter(e.target.value)}
           className="max-w-64"
           placeholder="Search Member..."
         />
-        <Button>Invite</Button>
+        {['OWNER', 'ADMIN'].includes(currentUserRole) ? (
+          <AddMemberDialog />
+        ) : null}
       </div>
-      <div className="flex flex-col divide-y rounded-md border">
-        <div className="bg-secondary flex justify-between p-4">
-          <p className="w-60">Id</p>
-          <p>Name</p>
-          <p>Role</p>
-
-          <div className="data-[state=open]:bg-muted flex size-8 p-0"></div>
-        </div>
-        {filteredMembers.length > 0 ? (
-          filteredMembers.map((member) => (
-            <MemberTableRow key={member.id} member={member} />
-          ))
-        ) : (
-          <h2>No result</h2>
-        )}
-      </div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Profile</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Joined At</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredMembers.map((member) => (
+            <MemberTableRow
+              key={member.user.id}
+              member={member}
+              currentUserRole={currentUserRole}
+            />
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

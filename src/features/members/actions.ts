@@ -2,13 +2,21 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { changeRoleOfMember, getProjectRoles } from './services';
+import { addProjectMember, changeRoleOfMember, removeMember } from './services';
 
-export const getProjectRolesAction = async () => {
-  const res = await getProjectRoles();
+export const removeMemberAction = async (memberId: string) => {
+  const res = await removeMember(memberId);
 
   if (!res) return null;
+  revalidatePath('/members');
+  return res;
+};
 
+export const addProjectMemberAction = async (name: string, role: string) => {
+  const res = await addProjectMember(name, role);
+
+  if (!res) return null;
+  revalidatePath('/members');
   return res;
 };
 
@@ -19,7 +27,6 @@ export const changeRoleOfMemberAction = async (
   const res = await changeRoleOfMember(memberId, role);
 
   if (!res) return null;
-
-  revalidatePath('/team');
+  revalidatePath('/members');
   return res;
 };

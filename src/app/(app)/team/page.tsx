@@ -9,7 +9,9 @@ export default async function TeamPage() {
           <BreadcrumbPage pageName="Team" />
           <div>
             <h1 className="text-lg font-semibold md:text-2xl">Project Team</h1>
-            <p className="text-muted-foreground text-sm">Ma</p>
+            <p className="text-muted-foreground text-sm">
+              Manage your project team members
+            </p>
           </div>
         </div>
       </div>

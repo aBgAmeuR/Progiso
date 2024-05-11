@@ -1,10 +1,9 @@
-/* 'use client';
+'use client';
 
 import * as React from 'react';
-import { TrashIcon } from '@radix-ui/react-icons';
-import { type Row } from '@tanstack/react-table';
+import { toast } from 'sonner';
 
-import { deleteTasks } from '../_lib/client-actions';
+import { removeMemberAction } from '../actions';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,42 +14,28 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import { type Task } from '@/db/schema';
+import { getErrorMessage } from '@/lib/handle-error';
 
-interface DeleteTasksDialogProps
+interface RemoveMemberDialogProps
   extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  tasks: Row<Task>[];
-  onSuccess?: () => void;
-  showTrigger?: boolean;
+  memberId: string;
 }
 
 export function DeleteTasksDialog({
-  tasks,
-  onSuccess,
-  showTrigger = true,
+  memberId,
   ...props
-}: DeleteTasksDialogProps) {
+}: RemoveMemberDialogProps) {
   const [isDeletePending, startDeleteTransition] = React.useTransition();
 
   return (
     <Dialog {...props}>
-      {showTrigger ? (
-        <DialogTrigger asChild>
-          <Button variant="outline" size="sm">
-            <TrashIcon className="mr-2 size-4" aria-hidden="true" />
-            Delete ({tasks.length})
-          </Button>
-        </DialogTrigger>
-      ) : null}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your{' '}
-            <span className="font-medium">{tasks.length}</span>
-            {tasks.length === 1 ? ' task' : ' tasks'} from our servers.
+            This action cannot be undone. This will permanently remove the
+            member from the team.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2 sm:space-x-0">
@@ -59,19 +44,20 @@ export function DeleteTasksDialog({
           </DialogClose>
           <DialogClose asChild>
             <Button
-              aria-label="Delete selected rows"
+              aria-label="Remove member"
               variant="destructive"
               onClick={() => {
                 startDeleteTransition(() => {
-                  deleteTasks({
-                    rows: tasks,
-                    onSuccess,
+                  toast.promise(removeMemberAction(memberId), {
+                    loading: 'Deleting...',
+                    success: 'Member removed successfully!',
+                    error: (error) => getErrorMessage(error),
                   });
                 });
               }}
               disabled={isDeletePending}
             >
-              Delete
+              Remove
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -79,4 +65,3 @@ export function DeleteTasksDialog({
     </Dialog>
   );
 }
- */
