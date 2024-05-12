@@ -33,7 +33,7 @@ export const MessagesContainer = async ({
 
   return (
     <div className="flex w-full flex-col gap-2">
-      <ScrollArea className="py-4 pr-4" scrollBottom>
+      <ScrollArea className="flex-1 py-4 pr-4" scrollBottom>
         <div className="flex flex-1 flex-col gap-4">
           {messages?.map((message) => (
             <MessageCard

@@ -1,5 +1,3 @@
-import { getSelectedProject } from '../projects';
-
 import { getServerSession } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
@@ -64,12 +62,20 @@ export const createConversation = async (data: {
 };
 
 export const getConversations = async () => {
-  const selectedProject = await getSelectedProject();
+  const session = await getServerSession();
+  if (!session) return null;
+
+  const selectedProject = session.user.selectProject;
   if (!selectedProject) return null;
 
   const conversations = await prisma.conversation.findMany({
     where: {
       projectId: selectedProject.id,
+      users: {
+        some: {
+          userId: session.user.id,
+        },
+      },
     },
     include: {
       users: {

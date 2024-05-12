@@ -29,7 +29,13 @@ export const ConversationCard = ({
       href={`/messages?id=${conversation.id}`}
     >
       <Avatar className="size-8">
-        <AvatarImage src={users[0].user.image!} />
+        <AvatarImage
+          src={
+            conversation.title
+              ? conversation.messages[0].user.image!
+              : users[0].user.image!
+          }
+        />
         <AvatarFallback>
           {users[0].user.name && users[0].user.name.slice(0, 2)}
         </AvatarFallback>
