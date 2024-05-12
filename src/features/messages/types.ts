@@ -1,10 +1,5 @@
 export type TConversation = {
-  messages: Array<{
-    user: TUser;
-    id: string;
-    created_at: Date;
-    content: string;
-  }>;
+  messages: TMessage[];
   users: Array<{
     user: TUser;
     role: string;
@@ -18,4 +13,11 @@ type TUser = {
   id: string;
   name: string | null;
   image: string | null;
+};
+
+export type TMessage = {
+  id: string;
+  content: string;
+  created_at: Date;
+  user: TUser;
 };

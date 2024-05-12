@@ -13,6 +13,8 @@ export const createConversation = async (data: {
   const selectedProject = session.user.selectProject;
   if (!selectedProject) return null;
 
+  if (data.members.length === 0) return null;
+
   const creatorId = await prisma.projectMember.findFirst({
     where: {
       projectId: selectedProject.id,
@@ -28,7 +30,23 @@ export const createConversation = async (data: {
   const membersId = data.members.map((id) => ({ id }));
   membersId.push({ id: creatorId.id });
 
-  const conversation = await prisma.conversation.create({
+  if (data.members.length === 1) {
+    const conversation = await prisma.conversation.findFirst({
+      where: {
+        users: {
+          every: {
+            id: {
+              in: membersId.map((id) => id.id),
+            },
+          },
+        },
+      },
+    });
+
+    if (conversation) return conversation;
+  }
+
+  await prisma.conversation.create({
     data: {
       title: data.title,
       users: {
@@ -42,7 +60,7 @@ export const createConversation = async (data: {
     },
   });
 
-  return conversation;
+  return 'ok';
 };
 
 export const getConversations = async () => {
@@ -90,6 +108,57 @@ export const getConversations = async () => {
   return conversations;
 };
 
+export const getConversation = async (id: string, withCurentUser?: boolean) => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  const conversation = await prisma.conversation.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      users: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+      messages: {
+        orderBy: {
+          created_at: 'desc',
+        },
+        select: {
+          id: true,
+          content: true,
+          created_at: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!conversation) return null;
+
+  if (!withCurentUser) {
+    conversation.users = conversation.users.filter(
+      (user) => user.user.id !== session.user.id
+    );
+  }
+
+  return conversation;
+};
+
 export const getMembersListofProject = async () => {
   const session = await getServerSession();
   if (!session) return null;
@@ -126,4 +195,41 @@ export const getMembersListofProject = async () => {
     .filter((member) => member.label !== session.user.name);
 
   return user || [];
+};
+
+export const sendMessage = async (conversationId: string, content: string) => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  const message = await prisma.message.create({
+    data: {
+      content,
+      conversationId,
+      userId: session.user.id,
+    },
+  });
+
+  return message;
+};
+
+export const getMessagesOfConversation = async (conversationId: string) => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  const messages = await prisma.message.findMany({
+    where: {
+      conversationId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  return messages;
 };
