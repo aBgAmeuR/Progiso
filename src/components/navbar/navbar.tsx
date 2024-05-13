@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Icons } from '../icons';
 import { ProjectSelector } from './project-selector';
 import { ProjectSelectorDropdownMenu } from './project-selector-dropdown-menu';
+import { ProjectSelectorSkeleton } from './project-selector-skeleton';
+import { ShowProjectSelector } from './show-project-selector';
 
 import { SignInButton } from '@/components/navbar/sign-in-button';
 import { ThemeToggle } from '@/components/navbar/theme-toggle';
@@ -21,11 +23,13 @@ export const Navbar = async () => {
             <Icons.logo className="size-6" />
             <p className="font-mono text-lg font-bold">Progiso</p>
           </Link>
-          <ProjectSelector>
-            <Suspense fallback={null}>
-              <ProjectSelectorDropdownMenu />
-            </Suspense>
-          </ProjectSelector>
+          <Suspense fallback={<ProjectSelectorSkeleton />}>
+            <ShowProjectSelector>
+              <ProjectSelector>
+                <ProjectSelectorDropdownMenu />
+              </ProjectSelector>
+            </ShowProjectSelector>
+          </Suspense>
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
