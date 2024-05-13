@@ -3,12 +3,10 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
 
 import { changeRoleOfMemberAction } from '../actions';
-import { TMember } from '../types';
-import { ROLES } from '../types';
+import { ROLES, TMember } from '../types';
 import { getRoleBadgeColor } from '../utils';
 import { DeleteTasksDialog } from './remove-member-dialog';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { UserAvatar } from '@/components/user-avatar';
 import { getErrorMessage } from '@/lib/handle-error';
 
 const formatDateTime = (date: Date) => {
@@ -57,12 +56,11 @@ export const MemberTableRow = ({
         memberId={member.id}
       />
       <TableCell>
-        <Avatar className="size-8">
-          <AvatarImage src={member.user.image!} />
-          <AvatarFallback>
-            {member.user.name && member.user.name.slice(0, 2)}
-          </AvatarFallback>
-        </Avatar>
+        <UserAvatar
+          url={member.user.image}
+          seed={member.user.name}
+          className="size-8"
+        />
       </TableCell>
       <TableCell>{member.user.name || 'Unknown'}</TableCell>
       <TableCell>{formatDateTime(member.joined_at)}</TableCell>
