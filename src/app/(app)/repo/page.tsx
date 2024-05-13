@@ -1,7 +1,18 @@
+import { Suspense } from 'react';
+
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
-import { CommitsSection } from '@/features/repository/components/commits-section';
-import { OverviewSection } from '@/features/repository/components/overview-section';
-import { TopContributorsSection } from '@/features/repository/components/top-contributors-section';
+import {
+  CommitsSection,
+  CommitsSectionSkeleton,
+} from '@/features/repository/components/commits-section';
+import {
+  OverviewSection,
+  OverviewSectionSkeleton,
+} from '@/features/repository/components/overview-section';
+import {
+  TopContributorsSection,
+  TopContributorsSectionSkeleton,
+} from '@/features/repository/components/top-contributors-section';
 
 export default async function RepoPage() {
   return (
@@ -18,10 +29,16 @@ export default async function RepoPage() {
         </div>
       </div>
       <div className="space-y-6">
-        <OverviewSection />
+        <Suspense fallback={<OverviewSectionSkeleton />}>
+          <OverviewSection />
+        </Suspense>
         <div className="grid grid-cols-2 gap-6">
-          <CommitsSection />
-          <TopContributorsSection />
+          <Suspense fallback={<CommitsSectionSkeleton />}>
+            <CommitsSection />
+          </Suspense>
+          <Suspense fallback={<TopContributorsSectionSkeleton />}>
+            <TopContributorsSection />
+          </Suspense>
         </div>
       </div>
     </main>

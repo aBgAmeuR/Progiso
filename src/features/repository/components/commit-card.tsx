@@ -5,6 +5,7 @@ import { TCommit } from '../type';
 import { getTimeAgo } from '../utils';
 
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatar } from '@/components/user-avatar';
 import { cn } from '@/lib/utils';
 
@@ -27,10 +28,7 @@ export const CommitCard = async ({ commit }: TCommitCardProps) => {
   const commitState = commit.node.status?.state;
 
   return (
-    <div
-      key={commit.node.abbreviatedOid}
-      className="flex items-center justify-between px-4 py-3"
-    >
+    <div className="flex items-center justify-between px-4 py-3">
       <div className="flex flex-1 flex-col gap-1">
         <p className="line-clamp-1">{commit.node.message}</p>
         <div className="grid grid-cols-[1fr_minmax(100px,_1fr)] gap-3">
@@ -59,6 +57,30 @@ export const CommitCard = async ({ commit }: TCommitCardProps) => {
         <Link href={commit.node.commitUrl} target="_blank">
           <ExternalLink className="size-5" />
         </Link>
+      </Button>
+    </div>
+  );
+};
+
+export const CommitCardSkeleton = () => {
+  return (
+    <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex flex-1 flex-col gap-1">
+        <Skeleton className="h-6 w-3/4" />
+        <div className="grid grid-cols-[1fr_minmax(100px,_1fr)] gap-3">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="size-6 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <Button
+        variant="link"
+        size="icon"
+        className="hover:bg-secondary"
+        disabled
+      >
+        <ExternalLink className="size-5" />
       </Button>
     </div>
   );

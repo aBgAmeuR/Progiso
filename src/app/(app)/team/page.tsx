@@ -1,4 +1,7 @@
+import { Suspense } from 'react';
+
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
+import { MembersTableSkeleton } from '@/features/members/components/members-table-skeleton';
 import { MembersTableSSR } from '@/features/members/components/members-table-ssr';
 
 export default async function TeamPage() {
@@ -15,7 +18,9 @@ export default async function TeamPage() {
           </div>
         </div>
       </div>
-      <MembersTableSSR />
+      <Suspense fallback={<MembersTableSkeleton />}>
+        <MembersTableSSR />
+      </Suspense>
     </main>
   );
 }
