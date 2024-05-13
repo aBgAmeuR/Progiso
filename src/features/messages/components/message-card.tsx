@@ -36,10 +36,11 @@ export const MessageCard = ({ message, direction }: TMessageCardProps) => {
           direction === 'right' ? 'items-end' : 'items-start'
         )}
       >
-        <p className="bg-secondary rounded-lg p-2">{message.content}</p>
         <p className="text-muted-foreground text-xs">
+          {direction === 'right' ? 'You' : message.user.name} •{' '}
           {formatMessageDate(message.created_at)}
         </p>
+        <p className="bg-secondary rounded-lg p-2">{message.content}</p>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import {
   createConversation,
+  deleteConversation,
   getConversation,
   getConversations,
   getMembersListofProject,
@@ -72,4 +73,12 @@ export const getMessagesOfConversationAction = async (
   if (!res) return null;
 
   return res;
+};
+
+export const deleteConversationAction = async (id: string) => {
+  const res = await deleteConversation(id);
+
+  if (!res) return null;
+
+  redirect('/messages');
 };

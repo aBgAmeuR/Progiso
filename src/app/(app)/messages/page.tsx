@@ -36,7 +36,7 @@ export default async function MessagesPage(props: PageProps) {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={70}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={15} minSize={10} maxSize={30}>
+            <ResizablePanel defaultSize={10} minSize={6} maxSize={30}>
               <ConversationHeader id={id} />
             </ResizablePanel>
             <ResizableHandle />

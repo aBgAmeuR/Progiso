@@ -239,3 +239,16 @@ export const getMessagesOfConversation = async (conversationId: string) => {
 
   return messages;
 };
+
+export const deleteConversation = async (conversationId: string) => {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  await prisma.conversation.delete({
+    where: {
+      id: conversationId,
+    },
+  });
+
+  return 'ok';
+};
