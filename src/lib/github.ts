@@ -2,6 +2,7 @@ import { getDetailOfGithubRepoUrl } from './utils';
 
 import { getDetailProject, getSelectedProject } from '@/features/projects';
 import { getGitHubAccessToken } from '@/features/repository/services';
+import { TCommit, TContributor } from '@/features/repository/type';
 
 export const getContributorsOfProject = async () => {
   const access_token = await getGitHubAccessToken();
@@ -24,7 +25,22 @@ export const getContributorsOfProject = async () => {
     }
   );
   const data = await response.json();
-  return data;
+  return data as TContributor[];
+};
+
+export type TIssuesAndPRStats = {
+  closedIssues: {
+    totalCount: number;
+  };
+  openIssues: {
+    totalCount: number;
+  };
+  closedPullRequests: {
+    totalCount: number;
+  };
+  openPullRequests: {
+    totalCount: number;
+  };
 };
 
 export const getIssuesAndPRStats = async () => {
@@ -71,7 +87,7 @@ export const getIssuesAndPRStats = async () => {
     console.error(data.errors);
     return null;
   }
-  return data.data.repository;
+  return data.data.repository as TIssuesAndPRStats;
 };
 
 export const getCommitsStats = async () => {
@@ -131,5 +147,6 @@ export const getCommitsStats = async () => {
     console.error(data.errors);
     return null;
   }
-  return data.data.repository.defaultBranchRef.target.history.edges;
+  return data.data.repository.defaultBranchRef.target.history
+    .edges as TCommit[];
 };

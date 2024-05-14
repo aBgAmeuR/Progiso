@@ -14,8 +14,15 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getCommitsStats } from '@/lib/github';
 
-export const CommitsSection = async () => {
+type TCommitSectionProps = {
+  nbCommits?: number;
+};
+
+export const CommitsSection = async ({
+  nbCommits = 5,
+}: TCommitSectionProps) => {
   const commitsStats = await getCommitsStats();
+  if (!commitsStats) return null;
 
   return (
     <Card>
@@ -24,7 +31,7 @@ export const CommitsSection = async () => {
       </CardHeader>
       <Separator />
       <CardContent className="divide-y p-0">
-        {commitsStats.slice(0, 5).map((commit: TCommit) => (
+        {commitsStats.slice(0, nbCommits).map((commit: TCommit) => (
           <CommitCard key={commit.node.abbreviatedOid} commit={commit} />
         ))}
       </CardContent>
@@ -42,7 +49,13 @@ export const CommitsSection = async () => {
   );
 };
 
-export const CommitsSectionSkeleton = () => {
+type TCommitSectionSkeletonProps = {
+  nbCommits?: number;
+};
+
+export const CommitsSectionSkeleton = ({
+  nbCommits = 5,
+}: TCommitSectionSkeletonProps) => {
   return (
     <Card>
       <CardHeader className="bg-muted/20 p-4">
@@ -50,7 +63,7 @@ export const CommitsSectionSkeleton = () => {
       </CardHeader>
       <Separator />
       <CardContent className="divide-y p-0"></CardContent>
-      {[...Array(5)].map((e, i) => (
+      {[...Array(nbCommits)].map((e, i) => (
         <CommitCardSkeleton key={i} />
       ))}
       <Separator />

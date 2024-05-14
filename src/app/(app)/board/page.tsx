@@ -1,23 +1,45 @@
-import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+} from '@/components/ui/breadcrumb';
+import {
+  CommitsSection,
+  CommitsSectionSkeleton,
+} from '@/features/repository/components/commits-section';
+import { TasksCardDiagram } from '@/features/tasks/components/tasks-card-diagram';
 
 export default async function BoardPage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
+    <main className="flex w-[calc(100vw-193px)] flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/board">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div>
+            <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
+            <p className="text-muted-foreground text-sm">
+              View your dashboard stats
+            </p>
+          </div>
+        </div>
       </div>
-      <div
-        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-        x-chunk="dashboard-02-chunk-1"
-      >
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            Welcome to Progiso
-          </h3>
-          <p className="text-muted-foreground text-sm">
-            The best platform for your projects
-          </p>
-          <Button className="mt-4">Get Started</Button>
+      <div className="space-y-6">
+        <div className="grid grid-cols-2 gap-6">
+          <TasksCardDiagram />
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <Suspense fallback={<CommitsSectionSkeleton />}>
+            <CommitsSection nbCommits={3} />
+          </Suspense>
         </div>
       </div>
     </main>

@@ -207,3 +207,33 @@ export const switchColumns = async (
 
   return updatedColumns;
 };
+
+export const getTasksDiagramData = async () => {
+  const selectProject = await getSelectProject();
+  if (!selectProject) return null;
+
+  const data = await prisma.column.findMany({
+    where: {
+      projectId: selectProject.id,
+    },
+    select: {
+      id: true,
+      order: true,
+      headingColor: true,
+      title: true,
+      _count: {
+        select: {
+          tasks: true,
+        },
+      },
+    },
+  });
+
+  return data.map((column) => ({
+    id: column.id,
+    order: column.order,
+    color: column.headingColor,
+    title: column.title,
+    taskCount: column._count.tasks,
+  }));
+};
