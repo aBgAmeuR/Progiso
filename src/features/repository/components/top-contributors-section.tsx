@@ -10,6 +10,7 @@ import { getContributorsOfProject } from '@/lib/github';
 
 export const TopContributorsSection = async () => {
   const contributors = await getContributorsOfProject();
+  if (!contributors) return null;
 
   return (
     <Card>

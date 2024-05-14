@@ -35,5 +35,5 @@ export const getProgressContributorValue = (
 ): number => {
   const firstContributor: TContributor = contributors[0];
   const coef = contributor.contributions / firstContributor.contributions;
-  return coef * 100;
+  return Math.round(coef * 100);
 };

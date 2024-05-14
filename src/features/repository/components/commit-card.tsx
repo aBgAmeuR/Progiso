@@ -25,7 +25,7 @@ type TCommitCardProps = {
 };
 
 export const CommitCard = async ({ commit }: TCommitCardProps) => {
-  const commitState = commit.node.status?.state;
+  const commitState = commit.node.status?.state || null;
 
   return (
     <div className="flex items-center justify-between px-4 py-3">
@@ -40,17 +40,19 @@ export const CommitCard = async ({ commit }: TCommitCardProps) => {
               seed={commit.node.author.name}
             />
           </div>
-          <div className="flex items-center gap-1">
-            <div
-              className={cn(
-                'size-2 rounded-full',
-                commitStates[commitState!].className
-              )}
-            ></div>
-            <p className="text-muted-foreground">
-              {commitStates[commitState!].text}
-            </p>
-          </div>
+          {commitState ? (
+            <div className="flex items-center gap-1">
+              <div
+                className={cn(
+                  'size-2 rounded-full',
+                  commitStates[commitState].className
+                )}
+              ></div>
+              <p className="text-muted-foreground">
+                {commitStates[commitState!].text}
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
       <Button variant="link" size="icon" className="hover:bg-secondary" asChild>
