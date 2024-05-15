@@ -27,14 +27,20 @@ export const ConversationList = async ({
 
   return (
     <div className={cn('flex w-full flex-col gap-2', className)}>
-      {sliceConversations?.map((conversation) => (
-        <ConversationCard
-          key={conversation.id}
-          conversation={conversation}
-          currentUserName={session.user.name}
-          isSelected={selectedConversationId === conversation.id}
-        />
-      ))}
+      {sliceConversations.length > 0 ? (
+        sliceConversations.map((conversation) => (
+          <ConversationCard
+            key={conversation.id}
+            conversation={conversation}
+            currentUserName={session.user.name}
+            isSelected={selectedConversationId === conversation.id}
+          />
+        ))
+      ) : (
+        <div className="pt-4 text-center text-sm text-gray-500">
+          No conversations yet
+        </div>
+      )}
     </div>
   );
 };

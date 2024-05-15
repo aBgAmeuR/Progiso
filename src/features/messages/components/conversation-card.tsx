@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { TConversation } from '../types';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { UserAvatar } from '@/components/user-avatar';
 import { cn } from '@/lib/utils';
 
 type TConversationCardProps = {
@@ -28,7 +28,20 @@ export const ConversationCard = ({
       )}
       href={`/messages?id=${conversation.id}`}
     >
-      <Avatar className="size-8">
+      <UserAvatar
+        seed={
+          conversation.title
+            ? conversation.messages[0]?.user.name
+            : users[0].user.name
+        }
+        url={
+          conversation.title
+            ? conversation.messages[0]?.user.image
+            : users[0].user.image
+        }
+        className="size-8"
+      />
+      {/* <Avatar className="size-8">
         <AvatarImage
           src={
             conversation.title
@@ -39,7 +52,7 @@ export const ConversationCard = ({
         <AvatarFallback>
           {users[0].user.name && users[0].user.name.slice(0, 2)}
         </AvatarFallback>
-      </Avatar>
+      </Avatar> */}
       <div>
         <h2 className="text-lg font-semibold">
           {conversation.title || users[0].user.name}

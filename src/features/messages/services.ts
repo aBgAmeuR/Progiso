@@ -109,6 +109,9 @@ export const getConversations = async () => {
         take: 1,
       },
     },
+    // orderBy: {
+    //   updated_at: 'desc',
+    // },
   });
 
   return conversations;

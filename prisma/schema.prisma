@@ -121,13 +121,15 @@ model Tag {
 }
 
 model Conversation {
-  id        String          @id @default(cuid()) @map("_id")
-  title     String?
-  projectId String
-  messages  Message[]
-  usersIDs  String[]
-  users     ProjectMember[] @relation(fields: [usersIDs], references: [id])
-  project   Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id         String          @id @default(cuid()) @map("_id")
+  title      String?
+  projectId  String
+  created_at DateTime        @default(now())
+  updated_at DateTime        @updatedAt
+  messages   Message[]
+  usersIDs   String[]
+  users      ProjectMember[] @relation(fields: [usersIDs], references: [id])
+  project    Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Message {
