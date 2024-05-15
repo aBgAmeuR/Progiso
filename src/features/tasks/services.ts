@@ -237,3 +237,26 @@ export const getTasksDiagramData = async () => {
     taskCount: column._count.tasks,
   }));
 };
+export const getTasksCount = async () => {
+  const selectProject = await getSelectProject();
+  if (!selectProject) return null;
+
+  const countTasks = await prisma.task.count({
+    where: {
+      columnDetail: {
+        projectId: selectProject.id,
+      },
+    },
+  });
+
+  const completeCountTasks = await prisma.task.count({
+    where: {
+      columnDetail: {
+        projectId: selectProject.id,
+        title: 'Complete',
+      },
+    },
+  });
+
+  return { countTasks, completeCountTasks };
+};

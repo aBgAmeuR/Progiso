@@ -11,18 +11,25 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
-export const TasksCardDiagram = async () => {
+type TTasksCardDiagramProps = {
+  className?: string;
+};
+
+export const TasksCardDiagram = async ({
+  className,
+}: TTasksCardDiagramProps) => {
   const data = await getTasksDiagramData();
   if (!data) return null;
 
   return (
-    <Card>
+    <Card className={cn('h-full', className)}>
       <CardHeader className="bg-muted/20 p-4">
         <h2 className="text-lg font-semibold">Distribution of tasks</h2>
       </CardHeader>
       <Separator />
-      <CardContent className="h-64 w-full">
+      <CardContent className="h-3/5 w-full px-4 py-1">
         <TasksDiagram data={data} />
       </CardContent>
       <Separator />
