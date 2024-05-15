@@ -12,8 +12,14 @@ export const TasksDiagram = ({ data }: TTasksDiagramProps) => {
   console.log(data);
 
   return (
-    <ResponsiveContainer width="100%" height="100%" className="mt-2">
-      <BarChart width={150} height={40} data={data} barSize={80}>
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        width={150}
+        height={40}
+        data={data}
+        barSize={80}
+        layout="horizontal"
+      >
         <Bar dataKey="taskCount" fill="#e11d48" />
         <XAxis dataKey="title" />
         {/* <YAxis /> */}

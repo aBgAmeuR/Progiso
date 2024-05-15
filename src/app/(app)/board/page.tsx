@@ -1,15 +1,13 @@
-import { Suspense } from 'react';
-
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
 } from '@/components/ui/breadcrumb';
-import {
-  CommitsSection,
-  CommitsSectionSkeleton,
-} from '@/features/repository/components/commits-section';
+import { MembersList } from '@/features/members/components/members-list';
+import { ConversationListCard } from '@/features/messages/components/conversations-list-card';
+import { CommitsSection } from '@/features/repository/components/commits-section';
+import { PrIssueCard } from '@/features/repository/components/pr-issue-card';
 import { TasksCardDiagram } from '@/features/tasks/components/tasks-card-diagram';
 
 export default async function BoardPage() {
@@ -32,16 +30,28 @@ export default async function BoardPage() {
           </div>
         </div>
       </div>
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
-          <TasksCardDiagram />
+      <div className="flex flex-col gap-4">
+        <PrIssueCard className="col-span-3 gap-4" />
+        <div className="grid h-[296px] grid-cols-3 gap-4">
+          <TasksCardDiagram className="col-span-2" />
+          <MembersList />
         </div>
-        <div className="grid grid-cols-2 gap-6">
-          <Suspense fallback={<CommitsSectionSkeleton />}>
-            <CommitsSection nbCommits={3} />
-          </Suspense>
+        <div className="grid grid-cols-3 gap-4">
+          <CommitsSection nbCommits={2} className="col-span-2" />
+          <ConversationListCard />
         </div>
       </div>
+      {/* <div className="flex flex-col gap-4">
+        <PrIssueCardSkeleton />
+        <div className="grid h-[296px] grid-cols-3 gap-4">
+          <TasksCardDiagram className="col-span-2" />
+          <MembersList />
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <CommitsSection nbCommits={2} className="col-span-2" />
+          <ConversationListCard />
+        </div>
+      </div> */}
     </main>
   );
 }

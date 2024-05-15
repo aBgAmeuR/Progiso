@@ -16,16 +16,18 @@ import { getCommitsStats } from '@/lib/github';
 
 type TCommitSectionProps = {
   nbCommits?: number;
+  className?: string;
 };
 
 export const CommitsSection = async ({
   nbCommits = 5,
+  className,
 }: TCommitSectionProps) => {
   const commitsStats = await getCommitsStats();
   if (!commitsStats) return null;
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader className="bg-muted/20 p-4">
         <h2 className="text-lg font-semibold">Last Commits</h2>
       </CardHeader>
