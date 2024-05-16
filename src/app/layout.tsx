@@ -59,7 +59,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       >
         <SessionProvider>
           <QueryProvider>
-            <ThemeProvider attribute="class">
+            <ThemeProvider attribute="class" defaultTheme="light">
               <TooltipsProvider>
                 <Navbar />
                 {children}
