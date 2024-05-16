@@ -1,8 +1,8 @@
 import {
-  BookOpenIcon,
   ChevronRightIcon,
+  Github,
+  ListTodo,
   MessagesSquareIcon,
-  ThumbsUpIcon,
 } from 'lucide-react';
 
 export const PageFeatures = () => {
@@ -14,19 +14,20 @@ export const PageFeatures = () => {
         <div className="grid gap-12 md:grid-cols-2">
           <div className="lg:w-3/4">
             <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-              Collaborative tools to design better user experience
+              Experience Seamless Project Management
             </h2>
             <p className="text-muted-foreground mt-3">
-              We help businesses bring ideas to life in the digital world, by
-              designing and implementing the technology tools that they need to
-              win.
+              In Progiso, every feature is meticulously designed to elevate your
+              project management experience. From the intuitive dashboard to the
+              seamless GitHub integration, Progiso streamlines your workflow and
+              fosters collaboration like never before.
             </p>
             <p className="mt-5">
               <a
                 className="group inline-flex items-center gap-x-1 font-medium underline-offset-4 hover:underline "
-                href="#"
+                href="/projects"
               >
-                Contact sales to learn more
+                Get Started
                 <ChevronRightIcon className="size-4 shrink-0 transition ease-in-out group-hover:translate-x-1" />
               </a>
             </p>
@@ -37,16 +38,17 @@ export const PageFeatures = () => {
             <div className="flex">
               {/* Icon */}
               <span className="bg-primary text-primary-foreground inline-flex size-[46px] shrink-0 items-center justify-center rounded-full border">
-                <BookOpenIcon className="size-5 shrink-0" />
+                <MessagesSquareIcon className="size-5 shrink-0" />
               </span>
               <div className="ms-5 sm:ms-8">
                 <h3 className="text-base font-semibold sm:text-lg">
-                  Industry-leading documentation
+                  Seamless Messaging System
                 </h3>
                 <p className="text-muted-foreground mt-1">
-                  Our documentation and extensive Client libraries contain
-                  everything a business needs to build a custom integration in a
-                  fraction of the time.
+                  Efficiently communicate with your team members through
+                  Progiso&apos;s integrated messaging system. Share updates,
+                  discuss tasks, and collaborate in real-time, all within the
+                  platform.
                 </p>
               </div>
             </div>
@@ -55,15 +57,17 @@ export const PageFeatures = () => {
             <div className="flex">
               {/* Icon */}
               <span className="bg-primary text-primary-foreground inline-flex size-[46px] shrink-0 items-center justify-center rounded-full  border">
-                <MessagesSquareIcon className="size-5 shrink-0" />
+                <ListTodo className="size-5 shrink-0" />
               </span>
               <div className="ms-5 sm:ms-8">
                 <h3 className="text-base font-semibold sm:text-lg">
-                  Developer community support
+                  Customizable Task Boards
                 </h3>
                 <p className="text-muted-foreground mt-1">
-                  We actively contribute to open-source projects—giving back to
-                  the community through development, patches, and sponsorships.
+                  Organize your workflow with customizable Kanban boards
+                  tailored to your team&apos;s preferences. Easily track tasks
+                  from conception to completion, ensuring nothing falls through
+                  the cracks.
                 </p>
               </div>
             </div>
@@ -72,15 +76,17 @@ export const PageFeatures = () => {
             <div className="flex">
               {/* Icon */}
               <span className="bg-primary text-primary-foreground inline-flex size-[46px] shrink-0 items-center justify-center rounded-full border">
-                <ThumbsUpIcon className="size-5 shrink-0" />
+                <Github className="size-5 shrink-0" />
               </span>
               <div className="ms-5 sm:ms-8">
                 <h3 className="text-base font-semibold sm:text-lg">
-                  Simple and affordable
+                  GitHub Integration
                 </h3>
                 <p className="text-muted-foreground mt-1">
-                  From boarding passes to movie tickets, there&apos;s pretty
-                  much nothing you can&apos;t do.
+                  Link your GitHub repositories directly to your projects in
+                  Progiso. Streamline development workflows, manage code
+                  repositories, and seamlessly coordinate between project
+                  management and version control.
                 </p>
               </div>
             </div>

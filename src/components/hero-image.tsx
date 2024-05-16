@@ -22,8 +22,8 @@ const HeroImage = () => {
     <Image
       className="size-full object-cover object-bottom"
       src={currentTheme === 'dark' ? PlaceholderDark : PlaceholderWhite}
-      width={1850}
-      height={995}
+      width={1904}
+      height={992}
       alt="hero image"
     />
   );

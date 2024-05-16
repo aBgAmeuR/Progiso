@@ -47,7 +47,11 @@ const Home = () => {
       <section className="hidden md:block">
         <div
           className="bg-muted/40 overflow-hidden rounded-lg border shadow"
-          style={{ aspectRatio: '16/9', width: '100%', height: 'auto' }}
+          style={{
+            aspectRatio: 1904 / 992,
+            width: '100%',
+            height: 'auto',
+          }}
         >
           <div className="not-prose w-full overflow-hidden rounded-lg border">
             <HeroImage />
