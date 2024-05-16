@@ -9,8 +9,8 @@ export const PrIssueCardSkeleton = () => {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
           <Skeleton className="h-5 w-20" />
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-7 w-52 pb-0.5" />
+        <CardContent className="flex flex-col gap-1">
+          <Skeleton className="h-7 w-52" />
           <Progress value={0} />
         </CardContent>
       </Card>
@@ -18,8 +18,8 @@ export const PrIssueCardSkeleton = () => {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
           <Skeleton className="h-5 w-20" />
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-7 w-52 pb-0.5" />
+        <CardContent className="flex flex-col gap-1">
+          <Skeleton className="h-7 w-52" />
           <Progress value={0} />
         </CardContent>
       </Card>
@@ -27,8 +27,8 @@ export const PrIssueCardSkeleton = () => {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
           <Skeleton className="h-5 w-20" />
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-7 w-52 pb-0.5" />
+        <CardContent className="flex flex-col gap-1">
+          <Skeleton className="h-7 w-52" />
           <Progress value={0} />
         </CardContent>
       </Card>

@@ -58,7 +58,7 @@ export const useTasksColumn = ({
 
       updateCardMutation.mutate({
         ...cardToTransfer,
-        order: copy.findIndex((c) => c.id === cardToTransfer.id),
+        order: copy.findIndex((c) => c.id === cardToTransfer?.id),
       });
 
       setCards(copy);

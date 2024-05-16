@@ -41,18 +41,6 @@ export const ConversationCard = ({
         }
         className="size-8"
       />
-      {/* <Avatar className="size-8">
-        <AvatarImage
-          src={
-            conversation.title
-              ? conversation.messages[0].user.image!
-              : users[0].user.image!
-          }
-        />
-        <AvatarFallback>
-          {users[0].user.name && users[0].user.name.slice(0, 2)}
-        </AvatarFallback>
-      </Avatar> */}
       <div>
         <h2 className="text-lg font-semibold">
           {conversation.title || users[0].user.name}

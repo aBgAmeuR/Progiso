@@ -6,6 +6,7 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { ConversationHeader } from '@/features/messages/components/conversation-header';
+import { ConversationListSkeleton } from '@/features/messages/components/conversation-list-skeleton';
 import { ConversationList } from '@/features/messages/components/conversations-list';
 import { CreateConversationDialog } from '@/features/messages/components/create-conversation-dialog';
 import { MessagesContainer } from '@/features/messages/components/messages-container';
@@ -28,7 +29,7 @@ export default async function MessagesPage(props: PageProps) {
               <h1 className="text-lg font-semibold md:text-2xl">Messages</h1>
               <CreateConversationDialog />
             </div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<ConversationListSkeleton />}>
               <ConversationList selectedConversationId={id} />
             </Suspense>
           </div>

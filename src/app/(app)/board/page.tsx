@@ -1,3 +1,11 @@
+import { Suspense } from 'react';
+
+import { CommitSectionSkeleton } from './skeletons/commit-section-skeleton';
+import { ConversationCardSkeleton } from './skeletons/conversation-card-skeleton';
+import { MembersSkeleton } from './skeletons/members-skeleton';
+import { PrIssueCardSkeleton } from './skeletons/pr-issue-card-skeleton';
+import { TasksCardDiagramSkeleton } from './skeletons/tasks-card-diagram-skeleton';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,27 +39,26 @@ export default async function BoardPage() {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <PrIssueCard className="col-span-3 gap-4" />
+        <Suspense fallback={<PrIssueCardSkeleton />}>
+          <PrIssueCard className="col-span-3 gap-4" />
+        </Suspense>
         <div className="grid h-[296px] grid-cols-3 gap-4">
-          <TasksCardDiagram className="col-span-2" />
-          <MembersList />
+          <Suspense fallback={<TasksCardDiagramSkeleton />}>
+            <TasksCardDiagram className="col-span-2" />
+          </Suspense>
+          <Suspense fallback={<MembersSkeleton />}>
+            <MembersList />
+          </Suspense>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <CommitsSection nbCommits={2} className="col-span-2" />
-          <ConversationListCard />
+          <Suspense fallback={<CommitSectionSkeleton />}>
+            <CommitsSection nbCommits={2} className="col-span-2" />
+          </Suspense>
+          <Suspense fallback={<ConversationCardSkeleton />}>
+            <ConversationListCard />
+          </Suspense>
         </div>
       </div>
-      {/* <div className="flex flex-col gap-4">
-        <PrIssueCardSkeleton />
-        <div className="grid h-[296px] grid-cols-3 gap-4">
-          <TasksCardDiagram className="col-span-2" />
-          <MembersList />
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          <CommitsSection nbCommits={2} className="col-span-2" />
-          <ConversationListCard />
-        </div>
-      </div> */}
     </main>
   );
 }
