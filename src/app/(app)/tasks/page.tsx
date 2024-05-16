@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import { BreadcrumbPage } from '@/components/breadcrumb-page';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { TasksBoardSkeleton } from '@/features/tasks/components/tasks-board-skeleton';
 import { TasksBoardSSR } from '@/features/tasks/components/tasks-board-ssr';
 
 export default async function TasksPage() {
@@ -19,7 +20,7 @@ export default async function TasksPage() {
         </div>
       </div>
       <ScrollArea className="flex flex-1">
-        <Suspense fallback={null}>
+        <Suspense fallback={<TasksBoardSkeleton />}>
           <TasksBoardSSR />
         </Suspense>
         <ScrollBar orientation="horizontal" />

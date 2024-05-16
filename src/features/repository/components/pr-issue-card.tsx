@@ -79,7 +79,7 @@ const SimpleCard = ({
         <Icon className="text-muted-foreground size-4" />
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground line-clamp-1 flex gap-1 whitespace-nowrap pb-0.5 text-xl font-medium">
+        <p className="text-muted-foreground line-clamp-1 flex gap-1 whitespace-nowrap pb-0.5">
           <span className="text-foreground">{value}</span>
           {text}
         </p>

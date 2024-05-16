@@ -31,7 +31,7 @@ export const ConversationListCard = async ({
       <CardContent className="h-[153px] w-full">
         <ConversationList
           selectedConversationId={selectedProject.id}
-          className="pt-2"
+          className="pt-4"
           slice={2}
         />
       </CardContent>
